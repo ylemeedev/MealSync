@@ -15,7 +15,6 @@ api.interceptors.request.use(async (config) => {
 
     if (credentials && typeof credentials !== "boolean") {
         const token = credentials.password;
-        console.log("🚀 ~ token:", token);
 
         config.headers.set("Authorization", `Bearer ${token}`);
     }

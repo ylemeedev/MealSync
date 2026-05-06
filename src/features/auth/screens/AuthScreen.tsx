@@ -13,6 +13,7 @@ import { BottomSheetContainer } from "../../../shared/components/BottomSheetCont
 import { BottomSheetRef } from "../../../shared/types/types";
 import { loadToken, logout } from "../services/auth.service";
 import { useAppNavigation } from "../../../app/navigation/types/rootNavigator.types";
+import { fetchMe } from "../../user/api/user";
 
 export const AuthScreen = () => {
     const navigation = useAppNavigation();
@@ -39,10 +40,20 @@ export const AuthScreen = () => {
 
     useEffect(() => {
         const initAuth = async () => {
+
+
             try {
                 const token = await loadToken();
-                if (!token) await logout(false);
-                else navigation.replace("Main", { screen: "ShoppingList" });
+
+                if (!token) {
+                    await logout(false);
+                    return;
+                }
+
+                //await fetchMe()
+
+                navigation.replace("Main", { screen: "ShoppingList" });
+
             } catch (error) {
                 console.log("🚀 - AUTHSCREEN ~ initAuth:", error)
                 await logout(false);

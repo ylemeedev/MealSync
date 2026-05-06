@@ -1,5 +1,5 @@
 import { ActivityIndicator, StyleSheet, TouchableOpacity, View, KeyboardAvoidingView, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { logout } from "../../auth/services/auth.service";
 import { useMe } from "../hooks/useUser";
@@ -25,6 +25,7 @@ export const UserScreen = () => {
     }
 
     if (error || !user) {
+
         return (
             <View style={styles.errorContainer}>
                 <TextApp style={styles.errorText}>Erreur de chargement</TextApp>

@@ -41,11 +41,7 @@ export const setToken = async (token: string) => {
  * refresh token storage
  */
 export const setRefreshToken = async (refreshToken: string) => {
-    await Keychain.setInternetCredentials(
-        "refresh_token",
-        "refresh",
-        refreshToken,
-    );
+    await Keychain.setInternetCredentials("refresh_token", "refresh", refreshToken);
 };
 
 export const getRefreshToken = async () => {

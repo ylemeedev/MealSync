@@ -1,10 +1,8 @@
 import { api } from "../../../shared/api/axios";
-import { ApiShoppingListsCollection, PlanningApi } from "../types/shoppingList.types";
+import { HydraResponse, Planning } from "../types/shoppingList.types";
 
-export const fetchPlannings = async (userId: number): Promise<ApiShoppingListsCollection<PlanningApi>> => {
-    const { data } = await api.get("/plannings", {
-        params: { user: userId },
-    });
+export const fetchPlannings = async (userId: number): Promise<HydraResponse<Planning>> => {
+    const { data } = await api.get("/plannings?exists[planningRecipes]=true");
 
     return data;
 };

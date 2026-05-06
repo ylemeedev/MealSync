@@ -5,12 +5,7 @@ export const useShoppingLists = (userId: number, options = {}) => {
     return useQuery({
         queryKey: ["shoppingLists", userId],
         queryFn: () => fetchPlannings(userId),
-        select: (res) =>
-            res.member.map((item) => ({
-                id: item["@id"].split("/").pop(),
-                week: item.weekNumber,
-                year: item.year,
-            })),
+        select: (res) => res.member,
         ...options,
     });
 };

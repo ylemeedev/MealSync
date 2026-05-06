@@ -3,15 +3,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ScreenContainerProps } from "../types/types";
 import LinearGradient from "react-native-linear-gradient";
 import { Colors } from "../../assets";
-import { StyleSheet, View } from "react-native";
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { useTabBarPadding } from "../hooks/useTabBarHeight";
+import { View } from "react-native";
 
 
 const ScreenContainer = ({ children, safeAreaTop = true, safeAreaBottom = true, bgColor = "linear" }: ScreenContainerProps) => {
     const insets = useSafeAreaInsets();
-    const tabBarHeight = useTabBarPadding();
-    console.log("🚀 ~ ScreenContainer ~ tabBarHeight:", tabBarHeight)
 
     const containerStyle = {
         flex: 1,
@@ -29,13 +25,7 @@ const ScreenContainer = ({ children, safeAreaTop = true, safeAreaBottom = true, 
         );
     }
 
-    return <View style={{ ...containerStyle, backgroundColor: bgColor, marginBottom: tabBarHeight }}>{children}</View>;
+    return <View style={{ ...containerStyle, backgroundColor: bgColor }}>{children}</View>;
 };
 
 export default ScreenContainer;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-});
