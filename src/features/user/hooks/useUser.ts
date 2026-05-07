@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchMe, updateMe } from "../api/user";
+import { fetchMe, updateMe } from "../api/user.api";
 import { UserState } from "../types/user.types";
 
 export const useMe = (options = {}) => {

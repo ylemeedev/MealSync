@@ -11,7 +11,7 @@ export interface ScreenContainerProps {
 
 export interface HeaderContainerProps {
     children: React.ReactNode;
-    bgColor?: string
+    bgColor?: string;
 }
 
 export interface InputProps extends TextInputProps {
@@ -48,3 +48,10 @@ export type BottomSheetRef = {
     open: () => void;
     close: () => void;
 };
+
+export interface CheckboxProps {
+    label: string;
+    isChecked: boolean;
+    onPress: () => void;
+    style?: StyleProp<TextStyle>;
+}

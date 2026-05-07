@@ -13,7 +13,7 @@ import { BottomSheetContainer } from "../../../shared/components/BottomSheetCont
 import { BottomSheetRef } from "../../../shared/types/types";
 import { loadToken, logout } from "../services/auth.service";
 import { useAppNavigation } from "../../../app/navigation/types/rootNavigator.types";
-import { fetchMe } from "../../user/api/user";
+import { fetchMe } from "../../user/api/user.api";
 
 export const AuthScreen = () => {
     const navigation = useAppNavigation();

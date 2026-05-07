@@ -2,7 +2,7 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import TextApp from "../../../shared/components/TextApp";
 import { FiltersProps } from "../types/shoppingList.types";
-import { Colors, GlobalStyles } from "../../../assets";
+import { Colors } from "../../../assets";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 export const Filters = ({ handlePress }: FiltersProps) => {

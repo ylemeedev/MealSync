@@ -1,19 +1,16 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
-import Icon from "react-native-vector-icons/MaterialIcons";
 import { Colors } from "../../../assets";
 import TextApp from "../../../shared/components/TextApp";
 import { Typography } from "../../../assets/fonts";
 import { HeaderContainer } from "../../../shared/components/HeaderContainer";
+import { HeaderCheckedShoppingListProps } from "../types/shoppingList.types";
 
-export const HeaderShoppingList = () => {
+export const HeaderCheckedShoppingList = ({ title }: HeaderCheckedShoppingListProps) => {
     return (
         <HeaderContainer>
             <View style={styles.header}>
-                <TextApp style={styles.text}>Mes listes de courses</TextApp>
-                <TouchableOpacity style={styles.btnAddList}>
-                    <Icon name="add" size={18} color={Colors.white} />
-                </TouchableOpacity>
+                <TextApp style={styles.text}>{title}</TextApp>
             </View>
         </HeaderContainer>
     );

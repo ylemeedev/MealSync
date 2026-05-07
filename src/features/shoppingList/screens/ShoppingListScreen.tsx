@@ -9,54 +9,53 @@ import { FiltersForm } from "../components/FiltersForm";
 import { BottomSheetRef } from "../../../shared/types/types";
 import { SortForm } from "../components/SortForm";
 import { SearchForm } from "../components/SearchForm";
-import { useShoppingLists } from "../hooks/useShoppingLists";
+import { usePlannings } from "../hooks/usePlannings";
 import { useMe } from "../../user/hooks/useUser";
 import { Typography } from "../../../assets/fonts";
 import TextApp from "../../../shared/components/TextApp";
 import ButtonCustom from "../../../shared/components/ButtonCustom";
-import { Planning, ShoppingList as ShoppingListType } from "../types/shoppingList.types";
+import { PlanningList, ShoppingList as ShoppingListType } from "../types/shoppingList.types";
 
 export const ShoppingListScreen = () => {
 
-
     const { data: user, isLoading: isLoadingUser, error: errorUser } = useMe()
-    const { data: planningLists, isLoading: isLoadingListsLoading, error: errorListsLoading } = useShoppingLists(user?.id, { enabled: !!user?.id })
+    const { data: planningLists, isLoading: isLoadingListsLoading, error: errorListsLoading } = usePlannings({ enabled: !!user?.id })
 
     const bottomSheetRef = useRef<BottomSheetRef>(null);
 
-    const shoppingLists: ShoppingListType[] = useMemo(() => {
+    const shoppingLists = useMemo<ShoppingListType[]>(() => {
         if (!planningLists) return [];
 
         return planningLists.flatMap(
-            (planning: Planning) => planning.shoppingLists
+            (planning: PlanningList) => planning.shoppingLists ?? []
         )
     }, [planningLists])
 
-
     const handlePressFilters = () => bottomSheetRef.current?.snapToIndex(0);
 
-    if (isLoadingUser || isLoadingListsLoading)
+    if (isLoadingUser || isLoadingListsLoading) {
         return (
             <View style={styles.loadingContainer}>
                 <ActivityIndicator size={100} color={Colors.mainColor} />
             </View>
         );
+    }
 
-    if (!user || errorUser || errorListsLoading)
+    if (!user || errorUser || errorListsLoading) {
         return (
             <View style={styles.errorContainer}>
                 <TextApp style={styles.errorText}>Erreur de chargement</TextApp>
             </View>
         );
+    }
 
-
-    if (!shoppingLists)
+    if (!shoppingLists) {
         return (
             <View style={{ ...GlobalStyles.ph, ...styles.infoContainer }}>
                 <ButtonCustom title="Commencer" onPress={() => { }} type="linear" styleButton={styles.btnStartList} />
             </View>
         );
-
+    }
 
     return (
         <>

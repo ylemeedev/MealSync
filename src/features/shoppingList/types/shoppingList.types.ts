@@ -47,6 +47,27 @@ export interface SearchFormProps {
     onChange(search: string): void;
 }
 
+export interface HydraResponse<T> {
+    member: T[];
+}
+
+export interface ShoppingListsProps {
+    shoppingLists: ShoppingList[];
+}
+
+export interface ShoppingCardProps {
+    shoppingList: ShoppingList;
+}
+
+export interface HeaderCheckedShoppingListProps {
+    title: string;
+}
+
+export type CheckedShoppingListScreenProps = StaticScreenProps<{
+    shoppingListId: number;
+    shoppingListName: string;
+}>;
+
 export interface Shop {
     id: number;
     name: string;
@@ -54,7 +75,7 @@ export interface Shop {
     updatedAt: string;
 }
 
-export interface ingredientShops {
+export interface IngredientShops {
     createdAt: string;
     updatedAt: string;
     price: number;
@@ -66,7 +87,7 @@ export interface Ingredient {
     name: string;
     description: string;
     barcode: string;
-    ingredientShops: ingredientShops[];
+    ingredientShops?: IngredientShops[];
     createdAt: string;
     updatedAt: string;
 }
@@ -91,41 +112,36 @@ export interface ShoppingListItem {
 export interface PlanningRecipe {
     id: number;
     timeOfDay: string;
-    recipe: Recipe;
+    recipe?: Recipe;
     createdAt: string;
     updatedAt: string;
 }
 
 export interface ShoppingList {
     id: number;
-    name?: string;
-    shoppingListItems: ShoppingListItem[];
+    name: string;
+    shoppingListItems?: ShoppingListItem[];
     createdAt: string;
     updatedAt: string;
 }
 
-export interface Planning {
+export interface PlanningList {
     id: number;
     weekNumber: number;
     year: number;
-    shoppingLists: ShoppingList[];
-    planningRecipes: PlanningRecipe[];
+    shoppingLists?: ShoppingList[];
+    planningRecipes?: PlanningRecipe[];
     createdAt: string;
     updatedAt: string;
 }
 
-export interface HydraResponse<T> {
-    member: T[];
+export interface ShoppingListDetail {
+    id: number;
+    name: string;
+    shoppingListItems?: ShoppingListItem[];
 }
 
-export interface ShoppingListsProps {
-    shoppingLists: ShoppingList[];
+export interface PayloadUpdateShoppingList {
+    shoppingListItemId: number;
+    isChecked: boolean;
 }
-
-export interface ShoppingCardProps {
-    shoppingList: ShoppingList;
-}
-
-export type CheckedShoppingListScreenProps = StaticScreenProps<{
-    shoppingListId: number;
-}>;

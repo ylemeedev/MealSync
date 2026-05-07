@@ -80,7 +80,7 @@ export const ShoppingCard = ({ shoppingList }: ShoppingCardProps) => {
     }, [shopStats])
 
     const handlePress = () => {
-        navigation.navigate('CheckedShoppingList', { shoppingListId: shoppingList.id });
+        navigation.navigate('CheckedShoppingList', { shoppingListId: shoppingList.id, shoppingListName: shoppingList.name });
     }
 
     return (

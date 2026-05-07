@@ -1,28 +1,91 @@
-import { StyleSheet, View } from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet, Text, View } from "react-native";
 import ScreenContainer from "../../../shared/components/ScreenContainer";
 import { Colors, GlobalStyles } from "../../../assets";
 import TextApp from "../../../shared/components/TextApp";
 import { CheckedShoppingListScreenProps } from "../types/shoppingList.types";
-
+import { useShoppingLists, useUpdateShoppingLists } from "../hooks/useShoppingLists";
+import { Typography } from "../../../assets/fonts";
+import Checkbox from "../../../shared/components/Checkbox";
 
 export const CheckedShoppingListScreen = ({ route }: CheckedShoppingListScreenProps) => {
 
-    /* const shoppingListId = route.params.shoppingListId; */
+    const { shoppingListId } = route.params;
+    const { data: shoppingList, isLoading, error } = useShoppingLists(shoppingListId)
+
+    const updateShoppingLists = useUpdateShoppingLists(shoppingListId);
+
+    const handlePressCheckbox = async (id: number, isChecked: boolean) => {
+        updateShoppingLists.mutate({ shoppingListItemId: id, isChecked: !isChecked });
+    }
+
+    if (isLoading) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size={100} color={Colors.mainColor} />
+            </View>
+        );
+    }
+
+    if (error) {
+        return (
+            <View style={styles.errorContainer}>
+                <TextApp style={styles.errorText}>Erreur de chargement</TextApp>
+            </View>
+        );
+    }
+
+    if (!shoppingList) {
+        return (
+            <View style={styles.emptyContainer}>
+                <TextApp style={styles.emptyText}>Votre liste est vide</TextApp>
+            </View>
+        );
+    }
 
     return (
-        <>
-            <ScreenContainer safeAreaTop={false} bgColor={Colors.background}>
-                <View style={styles.container}>
-                    <TextApp>CheckedShoppingList</TextApp>
-                </View>
-            </ScreenContainer>
-        </>
-    );
+        <ScreenContainer safeAreaTop={false} bgColor={Colors.background}>
+            <View style={{ ...GlobalStyles.ph, ...styles.container }}>
+                <FlatList
+                    data={shoppingList.shoppingListItems}
+                    renderItem={({ item }) => <Checkbox label={`${item.quantity} ${item.unit} ${item.ingredient.name}`} isChecked={item.isChecked} onPress={() => handlePressCheckbox(item.id, item.isChecked)} style={styles.checkbox} />}
+                    keyExtractor={item => item.id.toString()}
+                />
+            </View>
+        </ScreenContainer>
+    )
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        paddingVertical: 15
     },
-
+    errorContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    errorText: {
+        color: Colors.danger,
+        fontSize: 16,
+        fontFamily: Typography.semiBold
+    },
+    emptyContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    emptyText: {
+        color: Colors.text,
+        fontSize: 16,
+        fontFamily: Typography.semiBold
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    checkbox: {
+        marginBottom: 10
+    },
 });
