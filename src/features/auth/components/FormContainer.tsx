@@ -6,7 +6,10 @@ import { RegisterForm } from "./RegisterForm";
 import { ForgotPasswordForm } from "./ForgotPasswordForm";
 import { FormContainerProps, NamesForm } from "../types/auth.types";
 
-export const FormContainer = ({ formShow, onClickBottomSheet }: FormContainerProps) => {
+export const FormContainer = ({
+    formShow,
+    onClickBottomSheet,
+}: FormContainerProps) => {
     const insets = useSafeAreaInsets();
 
     return (

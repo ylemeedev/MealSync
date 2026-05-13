@@ -1,7 +1,7 @@
 import React from "react";
 import { TextInputProps, StyleProp, TextStyle } from "react-native";
 
-export type BackgroundVariant = "linear" | string;
+export type BackgroundVariant = "linear" | "overflow" | string;
 export interface ScreenContainerProps {
     children: React.ReactNode;
     safeAreaTop?: boolean;
@@ -54,4 +54,10 @@ export interface CheckboxProps {
     isChecked: boolean;
     onPress: () => void;
     style?: StyleProp<TextStyle>;
+}
+
+export interface ModalCustomProps {
+    children: React.ReactNode;
+    isModalVisible: boolean;
+    onClose: () => void;
 }

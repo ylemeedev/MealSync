@@ -1,5 +1,5 @@
 import { StyleSheet, View, ActivityIndicator } from "react-native";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import ScreenContainer from "../../../shared/components/ScreenContainer";
 import { Colors, GlobalStyles } from "../../../assets";
 import { ShoppingList } from "../components/ShoppingList";
@@ -17,19 +17,16 @@ import ButtonCustom from "../../../shared/components/ButtonCustom";
 import { PlanningList, ShoppingList as ShoppingListType } from "../types/shoppingList.types";
 
 export const ShoppingListScreen = () => {
-
-    const { data: user, isLoading: isLoadingUser, error: errorUser } = useMe()
-    const { data: planningLists, isLoading: isLoadingListsLoading, error: errorListsLoading } = usePlannings({ enabled: !!user?.id })
+    const { data: user, isLoading: isLoadingUser, error: errorUser } = useMe();
+    const { data: planningLists, isLoading: isLoadingListsLoading, error: errorListsLoading } = usePlannings({ enabled: !!user?.id });
 
     const bottomSheetRef = useRef<BottomSheetRef>(null);
 
     const shoppingLists = useMemo<ShoppingListType[]>(() => {
         if (!planningLists) return [];
 
-        return planningLists.flatMap(
-            (planning: PlanningList) => planning.shoppingLists ?? []
-        )
-    }, [planningLists])
+        return planningLists.flatMap((planning: PlanningList) => planning.shoppingLists ?? []);
+    }, [planningLists]);
 
     const handlePressFilters = () => bottomSheetRef.current?.snapToIndex(0);
 
@@ -52,7 +49,7 @@ export const ShoppingListScreen = () => {
     if (!shoppingLists) {
         return (
             <View style={{ ...GlobalStyles.ph, ...styles.infoContainer }}>
-                <ButtonCustom title="Commencer" onPress={() => { }} type="linear" styleButton={styles.btnStartList} />
+                <ButtonCustom title="Commencer" onPress={() => {}} type="linear" styleButton={styles.btnStartList} />
             </View>
         );
     }
@@ -92,25 +89,25 @@ const styles = StyleSheet.create({
     },
     errorContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: "center",
+        alignItems: "center",
     },
     infoContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: "center",
+        alignItems: "center",
     },
     btnStartList: {
-        width: 200
+        width: 200,
     },
     errorText: {
         color: Colors.danger,
         fontSize: 16,
-        fontFamily: Typography.semiBold
+        fontFamily: Typography.semiBold,
     },
     loadingContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: "center",
+        alignItems: "center",
     },
 });

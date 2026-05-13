@@ -50,10 +50,7 @@ const ButtonCustom = ({ title, type, styleButton, styleText, titleColor = "dark"
         );
     } else if (type === "linear") {
         return (
-            <TouchableOpacity
-                onPress={onPress}
-                style={{ ...styles.touchableOpacity, ...styleButton }}
-            >
+            <TouchableOpacity onPress={onPress} style={{ ...styles.touchableOpacity, ...styleButton }}>
                 <LinearGradient
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 1 }}

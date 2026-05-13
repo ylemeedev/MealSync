@@ -5,8 +5,13 @@ import { Colors } from "../../../assets";
 import { Typography } from "../../../assets/fonts";
 import { CardContentProps } from "../types/shoppingList.types";
 
-export const CardContent = ({ productsCurrent, productsTotal, budgetEstimated, shop, progress, }: CardContentProps) => {
-
+export const CardContent = ({
+    productsCurrent,
+    productsTotal,
+    budgetEstimated,
+    shop,
+    progress,
+}: CardContentProps) => {
     return (
         <View>
             <View style={styles.item}>
@@ -17,7 +22,9 @@ export const CardContent = ({ productsCurrent, productsTotal, budgetEstimated, s
                     style={styles.iconItem}
                 />
                 <TextApp style={styles.productsAdded}>
-                    <TextApp style={{ fontFamily: Typography.bold }}>{productsCurrent}/{productsTotal}</TextApp>{" "}
+                    <TextApp style={{ fontFamily: Typography.bold }}>
+                        {productsCurrent}/{productsTotal}
+                    </TextApp>{" "}
                     produits ajoutés
                 </TextApp>
             </View>
@@ -31,7 +38,9 @@ export const CardContent = ({ productsCurrent, productsTotal, budgetEstimated, s
                 />
                 <TextApp style={styles.estimatedBudget}>
                     Budget estimé :{" "}
-                    <TextApp style={{ fontFamily: Typography.bold }}>{budgetEstimated.toFixed(2)} €</TextApp>
+                    <TextApp style={{ fontFamily: Typography.bold }}>
+                        {budgetEstimated.toFixed(2)} €
+                    </TextApp>
                 </TextApp>
             </View>
 
@@ -44,12 +53,16 @@ export const CardContent = ({ productsCurrent, productsTotal, budgetEstimated, s
                 />
                 <TextApp style={styles.shop}>
                     Magasin :{" "}
-                    <TextApp style={{ fontFamily: Typography.bold }}>{shop}</TextApp>
+                    <TextApp style={{ fontFamily: Typography.bold }}>
+                        {shop}
+                    </TextApp>
                 </TextApp>
             </View>
 
             <View style={styles.progressBar}>
-                <View style={{ ...styles.fillProgressBar, width: `${progress}%` }}>
+                <View
+                    style={{ ...styles.fillProgressBar, width: `${progress}%` }}
+                >
                     <TextApp style={styles.textProgressBar}>
                         {progress}%
                     </TextApp>
@@ -94,6 +107,6 @@ const styles = StyleSheet.create({
     textProgressBar: {
         color: Colors.white,
         fontFamily: Typography.medium,
-        fontSize: 12
+        fontSize: 12,
     },
 });

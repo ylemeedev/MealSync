@@ -12,7 +12,7 @@ export const HeaderShoppingList = () => {
             <View style={styles.header}>
                 <TextApp style={styles.text}>Mes listes de courses</TextApp>
                 <TouchableOpacity style={styles.btnAddList}>
-                    <Icon name="add" size={18} color={Colors.white} />
+                    <Icon name="add" size={30} color={Colors.mainColor} />
                 </TouchableOpacity>
             </View>
         </HeaderContainer>
@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: "row",
         justifyContent: "space-between",
+        alignItems: "center",
     },
     text: {
         color: Colors.white,
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 7,
-        width: 30,
-        height: 30,
+        width: 40,
+        height: 40,
     },
 });

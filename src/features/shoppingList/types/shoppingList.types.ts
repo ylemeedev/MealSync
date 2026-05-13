@@ -59,6 +59,16 @@ export interface ShoppingCardProps {
     shoppingList: ShoppingList;
 }
 
+export interface shoppingListCard {
+    shoppingList: Omit<ShoppingList, "shoppingListItems"> & {
+        shoppingListItems: (Omit<ShoppingListItem, "ingredient"> & {
+            ingredient: Omit<Ingredient, "ingredientShops"> & {
+                ingredientShops: IngredientShops[];
+            };
+        })[];
+    };
+}
+
 export interface HeaderCheckedShoppingListProps {
     title: string;
 }
@@ -87,7 +97,7 @@ export interface Ingredient {
     name: string;
     description: string;
     barcode: string;
-    ingredientShops?: IngredientShops[];
+    ingredientShops: IngredientShops[];
     createdAt: string;
     updatedAt: string;
 }
@@ -112,7 +122,7 @@ export interface ShoppingListItem {
 export interface PlanningRecipe {
     id: number;
     timeOfDay: string;
-    recipe?: Recipe;
+    recipe: Recipe;
     createdAt: string;
     updatedAt: string;
 }
@@ -120,7 +130,7 @@ export interface PlanningRecipe {
 export interface ShoppingList {
     id: number;
     name: string;
-    shoppingListItems?: ShoppingListItem[];
+    shoppingListItems: ShoppingListItem[];
     createdAt: string;
     updatedAt: string;
 }
@@ -129,8 +139,8 @@ export interface PlanningList {
     id: number;
     weekNumber: number;
     year: number;
-    shoppingLists?: ShoppingList[];
-    planningRecipes?: PlanningRecipe[];
+    shoppingLists: ShoppingList[];
+    planningRecipes: PlanningRecipe[];
     createdAt: string;
     updatedAt: string;
 }

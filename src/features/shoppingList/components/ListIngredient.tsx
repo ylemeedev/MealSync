@@ -1,14 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
 
 const ListIngredient = () => {
-  return (
-    <View>
-      <Text>ListIngredient</Text>
-    </View>
-  )
-}
+    return (
+        <View>
+            <Text>ListIngredient</Text>
+        </View>
+    );
+};
 
-export default ListIngredient
+export default ListIngredient;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

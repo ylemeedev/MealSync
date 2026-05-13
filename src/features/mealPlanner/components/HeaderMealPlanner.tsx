@@ -1,18 +1,20 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import React from "react";
+import Icon from "react-native-vector-icons/MaterialIcons";
 import { Colors } from "../../../assets";
 import TextApp from "../../../shared/components/TextApp";
 import { Typography } from "../../../assets/fonts";
 import { HeaderContainer } from "../../../shared/components/HeaderContainer";
-import { HeaderCheckedShoppingListProps } from "../types/shoppingList.types";
+import { HeaderMealPlannerProps } from "../types/mealPlanner.types";
 
-export const HeaderCheckedShoppingList = ({
-    title,
-}: HeaderCheckedShoppingListProps) => {
+export const HeaderMealPlanner = ({ onOpenWeekSelector }: HeaderMealPlannerProps) => {
     return (
         <HeaderContainer>
             <View style={styles.header}>
-                <TextApp style={styles.text}>{title}</TextApp>
+                <TextApp style={styles.text}>Mes listes de courses</TextApp>
+                <TouchableOpacity style={styles.btnEditCalendar} onPress={onOpenWeekSelector}>
+                    <Icon name="edit-calendar" size={30} color={Colors.mainColor} />
+                </TouchableOpacity>
             </View>
         </HeaderContainer>
     );
@@ -22,6 +24,7 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: "row",
         justifyContent: "space-between",
+        alignItems: "center",
     },
     text: {
         color: Colors.white,
@@ -29,12 +32,12 @@ const styles = StyleSheet.create({
         fontFamily: Typography.medium,
         fontSize: 18,
     },
-    btnAddList: {
+    btnEditCalendar: {
         backgroundColor: Colors.secondaryColor,
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 7,
-        width: 30,
-        height: 30,
+        width: 40,
+        height: 40,
     },
 });

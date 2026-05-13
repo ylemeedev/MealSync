@@ -1,4 +1,11 @@
-import { ActivityIndicator, StyleSheet, TouchableOpacity, View, KeyboardAvoidingView, ScrollView } from "react-native";
+import {
+    ActivityIndicator,
+    StyleSheet,
+    TouchableOpacity,
+    View,
+    KeyboardAvoidingView,
+    ScrollView,
+} from "react-native";
 import React, { useEffect } from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { logout } from "../../auth/services/auth.service";
@@ -25,7 +32,6 @@ export const UserScreen = () => {
     }
 
     if (error || !user) {
-
         return (
             <View style={styles.errorContainer}>
                 <TextApp style={styles.errorText}>Erreur de chargement</TextApp>
@@ -39,9 +45,18 @@ export const UserScreen = () => {
                 <ScrollView>
                     <FormUser />
                     <View style={GlobalStyles.ph}>
-                        <TouchableOpacity onPress={handleDisconnect} style={styles.btnLogout}>
-                            <Icon name="logout" size={20} color={Colors.danger} />
-                            <TextApp style={styles.btnLogoutText}>Se deconnecter</TextApp>
+                        <TouchableOpacity
+                            onPress={handleDisconnect}
+                            style={styles.btnLogout}
+                        >
+                            <Icon
+                                name="logout"
+                                size={20}
+                                color={Colors.danger}
+                            />
+                            <TextApp style={styles.btnLogoutText}>
+                                Se deconnecter
+                            </TextApp>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -56,25 +71,25 @@ const styles = StyleSheet.create({
     },
     errorContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: "center",
+        alignItems: "center",
     },
     errorText: {
         color: Colors.danger,
         fontSize: 16,
-        fontFamily: Typography.semiBold
+        fontFamily: Typography.semiBold,
     },
     loadingContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: "center",
+        alignItems: "center",
     },
     btnLogout: {
-        flexDirection: 'row',
-        alignItems: 'center'
+        flexDirection: "row",
+        alignItems: "center",
     },
     btnLogoutText: {
         marginLeft: 4,
-        color: Colors.danger
+        color: Colors.danger,
     },
 });

@@ -24,7 +24,7 @@ export const AuthScreen = () => {
 
     const handlePress = (formName: NamesForm) => {
         setFormShow(formName);
-    }
+    };
 
     useEffect(() => {
         if (!formShow) return;
@@ -40,8 +40,6 @@ export const AuthScreen = () => {
 
     useEffect(() => {
         const initAuth = async () => {
-
-
             try {
                 const token = await loadToken();
 
@@ -53,9 +51,8 @@ export const AuthScreen = () => {
                 //await fetchMe()
 
                 navigation.replace("Main", { screen: "ShoppingList" });
-
             } catch (error) {
-                console.log("🚀 - AUTHSCREEN ~ initAuth:", error)
+                console.log("🚀 - AUTHSCREEN ~ initAuth:", error);
                 await logout(false);
             } finally {
                 setReady(true);
@@ -65,9 +62,9 @@ export const AuthScreen = () => {
         initAuth();
     }, []);
 
-    const handleSheetChanges = useCallback((index: number) => {
-        if (index === -1) setFormShow(null)
-    }, []);
+    /*     const handleSheetChanges = useCallback((index: number) => {
+        if (index === -1) setFormShow(null);
+    }, []); */
 
     return (
         <>
@@ -84,35 +81,17 @@ export const AuthScreen = () => {
                         <ActivityIndicator size={80} color={Colors.white} />
                     </View>
                 ) : (
-                    <View
-                        style={{ ...GlobalStyles.ph, ...styles.btnsContainer }}
-                    >
-                        <ButtonCustom
-                            title="Se connecter"
-                            type="color"
-                            onPress={() => handlePress("login")}
-                        />
-                        <ButtonCustom
-                            title="Créer un compte"
-                            type="light"
-                            onPress={() => handlePress("register")}
-                            styleButton={styles.btnRegister}
-                        />
-                        <ButtonCustom
-                            title="Mot de passe oublié"
-                            onPress={() => handlePress("forgotPassword")}
-                            styleButton={styles.btnForgotPassword}
-                        />
+                    <View style={{ ...GlobalStyles.ph, ...styles.btnsContainer }}>
+                        <ButtonCustom title="Se connecter" type="color" onPress={() => handlePress("login")} />
+                        <ButtonCustom title="Créer un compte" type="light" onPress={() => handlePress("register")} styleButton={styles.btnRegister} />
+                        <ButtonCustom title="Mot de passe oublié" onPress={() => handlePress("forgotPassword")} styleButton={styles.btnForgotPassword} />
                     </View>
                 )}
             </ScreenContainer>
 
             {/* Form */}
-            <BottomSheetContainer ref={bottomSheetRef} onChange={handleSheetChanges}>
-                <FormContainer
-                    formShow={formShow}
-                    onClickBottomSheet={(val) => handlePress(val)}
-                />
+            <BottomSheetContainer ref={bottomSheetRef} bgColor={Colors.white}>
+                <FormContainer formShow={formShow} onClickBottomSheet={(val) => handlePress(val)} />
             </BottomSheetContainer>
         </>
     );

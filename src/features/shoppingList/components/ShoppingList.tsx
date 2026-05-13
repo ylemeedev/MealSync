@@ -4,7 +4,6 @@ import { ShoppingListsProps } from "../types/shoppingList.types";
 import { ShoppingCard } from "./ShoppingCard";
 
 export const ShoppingList = ({ shoppingLists }: ShoppingListsProps) => {
-
     return (
         <FlatList
             data={shoppingLists}
@@ -18,5 +17,5 @@ export const ShoppingList = ({ shoppingLists }: ShoppingListsProps) => {
 const styles = StyleSheet.create({
     flatList: {
         paddingVertical: 15,
-    }
-})
+    },
+});

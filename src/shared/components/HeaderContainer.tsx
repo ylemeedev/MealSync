@@ -1,10 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { HeaderContainerProps } from '../types/types'
-import { Colors, GlobalStyles } from '../../assets';
+import { HeaderContainerProps } from "../types/types";
+import { Colors, GlobalStyles } from "../../assets";
 
-export const HeaderContainer = ({ children, bgColor = Colors.mainColor }: HeaderContainerProps) => {
+export const HeaderContainer = ({
+    children,
+    bgColor = Colors.mainColor,
+}: HeaderContainerProps) => {
     const insets = useSafeAreaInsets();
 
     return (
@@ -13,12 +16,11 @@ export const HeaderContainer = ({ children, bgColor = Colors.mainColor }: Header
                 {children}
             </View>
         </View>
-    )
-}
-
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
-        paddingVertical: 20
-    }
-})
+        paddingVertical: 20,
+    },
+});

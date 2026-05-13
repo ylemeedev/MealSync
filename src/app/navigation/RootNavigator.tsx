@@ -18,19 +18,23 @@ const RootNavigator = () => {
                     backgroundColor: Colors.mainColor,
                 },
                 headerTitleStyle: {
-                    color: Colors.white
+                    color: Colors.white,
                 },
             }}
         >
             <Stack.Screen name="Auth" component={AuthScreen} />
             <Stack.Screen name="Main" component={TabNavigator} />
-            <Stack.Screen name="CheckedShoppingList" component={CheckedShoppingListScreen}
-                options={({ route }) => (
-                    {
-                        header: () => <HeaderCheckedShoppingList title={route.params.shoppingListName}/>,
-                        headerShown: true
-                    }
-                )}
+            <Stack.Screen
+                name="CheckedShoppingList"
+                component={CheckedShoppingListScreen}
+                options={({ route }) => ({
+                    header: () => (
+                        <HeaderCheckedShoppingList
+                            title={route.params.shoppingListName}
+                        />
+                    ),
+                    headerShown: true,
+                })}
             />
         </Stack.Navigator>
     );

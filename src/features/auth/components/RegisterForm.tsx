@@ -6,8 +6,10 @@ import { Colors, GlobalStyles } from "../../../assets";
 import { RegisterFormProps } from "../types/auth.types";
 import TextApp from "../../../shared/components/TextApp";
 
-export const RegisterForm = ({ onClickLogin, onClickForgotPassword }: RegisterFormProps) => {
-
+export const RegisterForm = ({
+    onClickLogin,
+    onClickForgotPassword,
+}: RegisterFormProps) => {
     return (
         <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
             <View>
@@ -113,6 +115,6 @@ const styles = StyleSheet.create({
         marginBottom: 30,
     },
     input: {
-        flex: 1
+        flex: 1,
     },
 });

@@ -5,8 +5,12 @@ import LinearGradient from "react-native-linear-gradient";
 import { Colors } from "../../assets";
 import { View } from "react-native";
 
-
-const ScreenContainer = ({ children, safeAreaTop = true, safeAreaBottom = true, bgColor = "linear" }: ScreenContainerProps) => {
+const ScreenContainer = ({
+    children,
+    safeAreaTop = true,
+    safeAreaBottom = true,
+    bgColor = "linear",
+}: ScreenContainerProps) => {
     const insets = useSafeAreaInsets();
 
     const containerStyle = {
@@ -19,13 +23,35 @@ const ScreenContainer = ({ children, safeAreaTop = true, safeAreaBottom = true, 
 
     if (bgColor === "linear") {
         return (
-            <LinearGradient colors={[Colors.linearStart, Colors.linearEnd]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={containerStyle}>
+            <LinearGradient
+                colors={[Colors.linearStart, Colors.linearEnd]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={containerStyle}
+            >
                 {children}
             </LinearGradient>
         );
     }
 
-    return <View style={{ ...containerStyle, backgroundColor: bgColor }}>{children}</View>;
+    if (bgColor === "overflow") {
+        return (
+            <LinearGradient
+                colors={[Colors.linearStart, Colors.linearEnd]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={{ ...containerStyle, opacity: 0.5 }}
+            >
+                {children}
+            </LinearGradient>
+        );
+    }
+
+    return (
+        <View style={{ ...containerStyle, backgroundColor: bgColor }}>
+            {children}
+        </View>
+    );
 };
 
 export default ScreenContainer;

@@ -1,15 +1,19 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Colors, GlobalStyles } from "../../../assets";
-import { CompletedIngredients, PriceByShop, ShoppingCardProps, ShopStats } from "../types/shoppingList.types";
+import {
+    CompletedIngredients,
+    PriceByShop,
+    ShoppingCardProps,
+    ShopStats,
+} from "../types/shoppingList.types";
 import { CardHeader } from "./CardHeader";
 import { CardContent } from "./CardContent";
 import { CardFooter } from "./CardFooter";
 import { useMemo } from "react";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 import { useAppNavigation } from "../../../app/navigation/types/rootNavigator.types";
 
 export const ShoppingCard = ({ shoppingList }: ShoppingCardProps) => {
-
     const navigation = useAppNavigation();
 
     const createdAt = dayjs(shoppingList.createdAt);
@@ -18,7 +22,6 @@ export const ShoppingCard = ({ shoppingList }: ShoppingCardProps) => {
      * Somme total
      */
     const getMinPrice = (obj: PriceByShop) => {
-
         let minShop: string = "";
         let minPrice: number = Infinity;
 
@@ -29,70 +32,86 @@ export const ShoppingCard = ({ shoppingList }: ShoppingCardProps) => {
             }
         }
 
-        return { minShop, minPrice }
-    }
+        return { minShop, minPrice };
+    };
 
     /**
      * Nombre d'élément cheked = true
      */
     const sumChecked = (obj: CompletedIngredients) => {
-        return Object.values(obj).filter(Boolean).length
-    }
+        return Object.values(obj).filter(Boolean).length;
+    };
 
     /**
      * Chiffres du panier
      */
     const shopStats = useMemo<ShopStats>(() => {
-
         const result: ShopStats = {
             total: {},
             remaining: {},
-            ingredients: {}
+            ingredients: {},
         };
 
-        shoppingList.shoppingListItems.forEach(shoppingListItem => {
+        shoppingList.shoppingListItems.forEach((shoppingListItem) => {
+            shoppingListItem.ingredient.ingredientShops.forEach(
+                (ingredientShop) => {
+                    const shopName = ingredientShop.shop.name;
 
-            shoppingListItem.ingredient.ingredientShops.forEach(ingredientShop => {
-                const shopName = ingredientShop.shop.name;
+                    // Prix total par magasin
+                    if (!(shopName in result.total)) result.total[shopName] = 0;
+                    result.total[shopName] += Number(ingredientShop.price);
 
-                // Prix total par magasin
-                if (!(shopName in result.total)) result.total[shopName] = 0;
-                result.total[shopName] += Number(ingredientShop.price);
+                    // Prix restant par magasin (sans ingrédients déjà OK)
+                    if (!(shopName in result.remaining))
+                        result.remaining[shopName] = 0;
+                    if (!shoppingListItem.isChecked) {
+                        result.remaining[shopName] += Number(
+                            ingredientShop.price,
+                        );
+                    }
 
-                // Prix restant par magasin (sans ingrédients déjà OK)
-                if (!(shopName in result.remaining)) result.remaining[shopName] = 0;
-                if (!shoppingListItem.isChecked) {
-                    result.remaining[shopName] += Number(ingredientShop.price);
-                }
+                    // Liste des ingredients (ajoutés ou non)
+                    result.ingredients[
+                        `${shoppingListItem.ingredient.name} ${shoppingListItem.unit}`
+                    ] = shoppingListItem.isChecked;
+                },
+            );
+        });
 
-                // Liste des ingredients ajoutés ou non
-                result.ingredients[shoppingListItem.ingredient.name] = shoppingListItem.isChecked;
-            })
-        })
+        return result;
+    }, [shoppingList]);
 
-        return result
-
-    }, [shoppingList])
-
-
-    const minShopStats = useMemo<{ minShop: string, minPrice: number }>(() => {
+    const minShopStats = useMemo<{ minShop: string; minPrice: number }>(() => {
         return getMinPrice(shopStats.total);
-    }, [shopStats])
+    }, [shopStats]);
 
     const handlePress = () => {
-        navigation.navigate('CheckedShoppingList', { shoppingListId: shoppingList.id, shoppingListName: shoppingList.name });
-    }
+        navigation.navigate("CheckedShoppingList", {
+            shoppingListId: shoppingList.id,
+            shoppingListName: shoppingList.name,
+        });
+    };
 
     return (
         <View style={GlobalStyles.ph}>
-            <TouchableOpacity style={styles.card} onPress={handlePress} activeOpacity={1}>
-                <CardHeader title={shoppingList.name} date={createdAt.format('DD MMMM YYYY')} />
+            <TouchableOpacity
+                style={styles.card}
+                onPress={handlePress}
+                activeOpacity={1}
+            >
+                <CardHeader
+                    title={shoppingList.name}
+                    date={createdAt.format("DD MMMM YYYY")}
+                />
                 <CardContent
                     productsCurrent={sumChecked(shopStats.ingredients)}
                     productsTotal={shoppingList.shoppingListItems.length}
                     budgetEstimated={minShopStats.minPrice}
                     shop={minShopStats.minShop}
-                    progress={sumChecked(shopStats.ingredients) * 100 / shoppingList.shoppingListItems.length}
+                    progress={
+                        (sumChecked(shopStats.ingredients) * 100) /
+                        shoppingList.shoppingListItems.length
+                    }
                 />
                 {/* {item.sharedProfiles && (
                     <CardFooter sharedProfiles={item.sharedProfiles} />

@@ -10,7 +10,10 @@ import { useState } from "react";
 import { loginApi } from "../api/auth";
 import { setToken, setRefreshToken } from "../services/auth.service";
 
-export const LoginForm = ({ onClickRegister, onClickForgotPassword }: LoginFormProps) => {
+export const LoginForm = ({
+    onClickRegister,
+    onClickForgotPassword,
+}: LoginFormProps) => {
     const navigation = useAppNavigation();
 
     const [email, setEmail] = useState<string | null>();
@@ -23,8 +26,8 @@ export const LoginForm = ({ onClickRegister, onClickForgotPassword }: LoginFormP
         try {
             const data = await loginApi(email, password);
 
-            setToken(data.token)
-            setRefreshToken(data.refresh_token)
+            setToken(data.token);
+            setRefreshToken(data.refresh_token);
 
             navigation.replace("Main", { screen: "ShoppingList" });
         } catch (error: any) {
@@ -79,9 +82,7 @@ export const LoginForm = ({ onClickRegister, onClickForgotPassword }: LoginFormP
             </View>
 
             <View style={styles.bottomContainer}>
-                {error && <TextApp style={styles.error}>
-                    {error}
-                </TextApp>}
+                {error && <TextApp style={styles.error}>{error}</TextApp>}
 
                 <ButtonCustom
                     title="Se connecter"
@@ -125,10 +126,10 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     error: {
-        textAlign: 'center',
-        color: Colors.danger
+        textAlign: "center",
+        color: Colors.danger,
     },
     input: {
-        flex: 1
+        flex: 1,
     },
 });

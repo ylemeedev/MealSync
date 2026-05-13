@@ -1,4 +1,3 @@
-
 import { StyleSheet, View } from "react-native";
 import React, { useEffect, useMemo, useState } from "react";
 import ButtonCustom from "../../../shared/components/ButtonCustom";
@@ -7,23 +6,21 @@ import TextApp from "../../../shared/components/TextApp";
 import Input from "../../../shared/components/Input";
 import { GlobalStyles } from "../../../assets";
 import { UserState } from "../types/user.types";
-import dayjs from 'dayjs';
-import 'dayjs/locale/fr';
+import dayjs from "dayjs";
+import "dayjs/locale/fr";
 
 export const FormUser = () => {
     const { data: user, isLoading, error } = useMe();
     const updateMe = useUpdateMe();
 
-    const [form, setForm] = useState<UserState>(
-        {
-            email: "",
-            userName: "",
-            firstName: "",
-            lastName: "",
-            profilePicture: "",
-            dateOfBirth: new Date()
-        }
-    );
+    const [form, setForm] = useState<UserState>({
+        email: "",
+        userName: "",
+        firstName: "",
+        lastName: "",
+        profilePicture: "",
+        dateOfBirth: new Date(),
+    });
 
     useEffect(() => {
         if (user) {
@@ -38,12 +35,11 @@ export const FormUser = () => {
         }
     }, [user]);
 
-
     const handleValidate = async () => {
         try {
             await updateMe.mutateAsync(form);
         } catch (error) {
-            console.log("🚀 - FORM USER - handleValidate :", error)
+            console.log("🚀 - FORM USER - handleValidate :", error);
         }
     };
 
@@ -59,15 +55,15 @@ export const FormUser = () => {
         );
     }, [form, user]);
 
-
     if (isLoading || error || !user) return null;
 
     const createdAt = dayjs(user.createdAt);
 
     return (
         <View style={{ ...GlobalStyles.ph, ...styles.container }}>
-
-            <TextApp style={styles.registrationDate}>Inscrit depuis {createdAt.format('DD MMMM YYYY')}</TextApp>
+            <TextApp style={styles.registrationDate}>
+                Inscrit depuis le {createdAt.format("DD MMMM YYYY")}
+            </TextApp>
 
             <View style={styles.formGroup}>
                 <TextApp>Email</TextApp>
@@ -85,9 +81,7 @@ export const FormUser = () => {
                 <Input
                     value={form.userName}
                     placeholder="Veuillez entrer un nom d'utilisateur"
-                    onChangeText={(val) =>
-                        setForm({ ...form, userName: val })
-                    }
+                    onChangeText={(val) => setForm({ ...form, userName: val })}
                     style={styles.input}
                 />
             </View>
@@ -97,9 +91,7 @@ export const FormUser = () => {
                 <Input
                     value={form.firstName}
                     placeholder="Veuillez entrer votre prénom"
-                    onChangeText={(val) =>
-                        setForm({ ...form, firstName: val })
-                    }
+                    onChangeText={(val) => setForm({ ...form, firstName: val })}
                     style={styles.input}
                 />
             </View>
@@ -109,9 +101,7 @@ export const FormUser = () => {
                 <Input
                     value={form.lastName}
                     placeholder="Veuillez entrer votre nom"
-                    onChangeText={(val) =>
-                        setForm({ ...form, lastName: val })
-                    }
+                    onChangeText={(val) => setForm({ ...form, lastName: val })}
                     style={styles.input}
                 />
             </View>
@@ -141,13 +131,15 @@ export const FormUser = () => {
             </View> */}
 
             <View style={styles.btnsContainer}>
-                {isModified && <ButtonCustom
-                    title={updateMe.isPending ? "Chargement" : "Valider"}
-                    onPress={handleValidate}
-                    type="color"
-                    disabled={updateMe.isPending}
-                    styleButton={styles.btn}
-                />}
+                {isModified && (
+                    <ButtonCustom
+                        title={updateMe.isPending ? "Chargement" : "Valider"}
+                        onPress={handleValidate}
+                        type="color"
+                        disabled={updateMe.isPending}
+                        styleButton={styles.btn}
+                    />
+                )}
             </View>
         </View>
     );
@@ -158,22 +150,22 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     input: {
-        marginTop: 5
+        marginTop: 5,
     },
     btnsContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
         gap: 10,
-        marginTop: 20
+        marginTop: 20,
     },
     btn: {
-        flex: 1
+        flex: 1,
     },
     registrationDate: {
-        paddingVertical: 10
+        paddingVertical: 10,
     },
     formGroup: {
-        marginVertical: 10
-    }
+        marginVertical: 10,
+    },
 });

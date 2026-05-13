@@ -1,2 +1,2 @@
-export { Colors } from './colors';
-export { GlobalStyles } from './globalStyles';
+export { Colors } from "./colors";
+export { GlobalStyles } from "./globalStyles";

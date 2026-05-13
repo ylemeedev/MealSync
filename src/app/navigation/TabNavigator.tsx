@@ -8,6 +8,7 @@ import { BudgetScreen } from "../../features/budget/screens/BudgetScreen";
 import { UserScreen } from "../../features/user/screens";
 import { RootTabParamList } from "./types/rootNavigator.types";
 import { HeaderUser } from "../../features/user/components/HeaderUser";
+import { HeaderMealPlanner } from "../../features/mealPlanner/components/HeaderMealPlanner";
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
@@ -24,19 +25,19 @@ export const TabNavigator = () => {
                 },
                 tabBarItemStyle: {
                     height: "100%",
-                    alignItems: 'center',
-                    flexDirection: 'row',
+                    alignItems: "center",
+                    flexDirection: "row",
                 },
                 tabBarIconStyle: {
                     flex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center'
+                    alignItems: "center",
+                    justifyContent: "center",
                 },
                 headerStyle: {
                     backgroundColor: Colors.mainColor,
                 },
                 headerTitleStyle: {
-                    color: Colors.white
+                    color: Colors.white,
                 },
             }}
         >
@@ -54,7 +55,6 @@ export const TabNavigator = () => {
                 name="MealPlanner"
                 component={MealPlannerScreen}
                 options={{
-                    title: "Mes repas",
                     tabBarIcon: ({ color, size }) => (
                         <Icon name="calendar-month" size={size} color={color} />
                     ),
