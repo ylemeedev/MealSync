@@ -8,6 +8,7 @@ import { GlobalStyles } from "../../../assets";
 import { UserState } from "../types/user.types";
 import dayjs from "dayjs";
 import "dayjs/locale/fr";
+import { fr } from "../../../shared/lang/fr";
 
 export const FormUser = () => {
     const { data: user, isLoading, error } = useMe();
@@ -66,52 +67,72 @@ export const FormUser = () => {
             </TextApp>
 
             <View style={styles.formGroup}>
-                <TextApp>Email</TextApp>
+                <TextApp>{fr.user.label.emailAddress}</TextApp>
                 <Input
                     value={form.email}
                     autoCorrect={false}
-                    placeholder="Veuillez entrer votre email"
+                    placeholder={fr.user.placeholder.emailAddress}
                     onChangeText={(val) => setForm({ ...form, email: val })}
                     style={styles.input}
                 />
             </View>
 
             <View style={styles.formGroup}>
-                <TextApp>Nom d'utilisateur</TextApp>
+                <TextApp>{fr.user.label.username}</TextApp>
                 <Input
                     value={form.userName}
-                    placeholder="Veuillez entrer un nom d'utilisateur"
+                    placeholder={fr.user.placeholder.username}
                     onChangeText={(val) => setForm({ ...form, userName: val })}
                     style={styles.input}
                 />
             </View>
 
             <View style={styles.formGroup}>
-                <TextApp>Prénom</TextApp>
+                <TextApp>{fr.user.label.firstName}</TextApp>
                 <Input
                     value={form.firstName}
-                    placeholder="Veuillez entrer votre prénom"
+                    placeholder={fr.user.placeholder.firstName}
                     onChangeText={(val) => setForm({ ...form, firstName: val })}
                     style={styles.input}
                 />
             </View>
 
             <View style={styles.formGroup}>
-                <TextApp>Nom</TextApp>
+                <TextApp>{fr.user.label.lastName}</TextApp>
                 <Input
                     value={form.lastName}
-                    placeholder="Veuillez entrer votre nom"
+                    placeholder={fr.user.placeholder.lastName}
                     onChangeText={(val) => setForm({ ...form, lastName: val })}
                     style={styles.input}
                 />
             </View>
+
+            <View style={styles.formGroup}>
+                <TextApp>{fr.user.label.goal}</TextApp>
+{/*                 <Input
+                    value={form.objective}
+                    placeholder={fr.user.placeholder.goal}
+                    onChangeText={(val) => setForm({ ...form, objective: val })}
+                    style={styles.input}
+                /> */}
+            </View>
+
+            <View style={styles.formGroup}>
+                <TextApp>{fr.user.label.preferences}</TextApp>
+{/*                 <Input
+                    value={form.preference}
+                    placeholder={fr.user.placeholder.preference}
+                    onChangeText={(val) => setForm({ ...form, preference: val })}
+                    style={styles.input}
+                /> */}
+            </View>
             {/* 
             
                         <View style={styles.formGroup}>
-                <TextApp>Photo de profil</TextApp>
+                <TextApp>{fr.user.label.profilePicture}</TextApp>
                 <Input
                     value={form.profilePicture}
-                    placeholder="Veuillez entrer votre photo"
+                    placeholder={fr.user.placeholder.profilePicture}
                     onChangeText={(val) =>
                         setForm({ ...form, profilePicture: val })
                     }
@@ -121,10 +142,10 @@ export const FormUser = () => {
             {/* 
             
                         <View style={styles.formGroup}>
-                <TextApp>Date de naissance</TextApp>
+                <TextApp>{fr.user.label.birthDate}</TextApp>
                 <Input
                 value={form.dateOfBirth?.toDateString()}
-                placeholder="Veuillez entrer votre date de naissance"
+                placeholder={fr.user.placeholder.birthDate}
                 onChangeText={(val) => setForm({ ...form, toDateString: val })}
                     style={styles.input}
                 />

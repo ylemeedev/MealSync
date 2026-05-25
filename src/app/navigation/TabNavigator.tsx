@@ -8,7 +8,6 @@ import { BudgetScreen } from "../../features/budget/screens/BudgetScreen";
 import { UserScreen } from "../../features/user/screens";
 import { RootTabParamList } from "./types/rootNavigator.types";
 import { HeaderUser } from "../../features/user/components/HeaderUser";
-import { HeaderMealPlanner } from "../../features/mealPlanner/components/HeaderMealPlanner";
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
@@ -42,22 +41,18 @@ export const TabNavigator = () => {
             }}
         >
             <Tab.Screen
+                name="MealPlanner"
+                component={MealPlannerScreen}
+                options={{
+                    tabBarIcon: ({ color, size }) => <Icon name="calendar-month" size={size} color={color} />,
+                }}
+            />
+            <Tab.Screen
                 name="ShoppingList"
                 component={ShoppingListScreen}
                 options={{
                     header: () => <HeaderShoppingList />,
-                    tabBarIcon: ({ color, size }) => (
-                        <Icon name="checklist" size={size} color={color} />
-                    ),
-                }}
-            />
-            <Tab.Screen
-                name="MealPlanner"
-                component={MealPlannerScreen}
-                options={{
-                    tabBarIcon: ({ color, size }) => (
-                        <Icon name="calendar-month" size={size} color={color} />
-                    ),
+                    tabBarIcon: ({ color, size }) => <Icon name="checklist" size={size} color={color} />,
                 }}
             />
             <Tab.Screen
@@ -65,9 +60,7 @@ export const TabNavigator = () => {
                 component={BudgetScreen}
                 options={{
                     title: "Mon budget",
-                    tabBarIcon: ({ color, size }) => (
-                        <Icon name="euro" size={size} color={color} />
-                    ),
+                    tabBarIcon: ({ color, size }) => <Icon name="euro" size={size} color={color} />,
                 }}
             />
             <Tab.Screen
@@ -75,9 +68,7 @@ export const TabNavigator = () => {
                 component={UserScreen}
                 options={{
                     header: () => <HeaderUser />,
-                    tabBarIcon: ({ color, size }) => (
-                        <Icon name="account-circle" size={size} color={color} />
-                    ),
+                    tabBarIcon: ({ color, size }) => <Icon name="account-circle" size={size} color={color} />,
                 }}
             />
         </Tab.Navigator>

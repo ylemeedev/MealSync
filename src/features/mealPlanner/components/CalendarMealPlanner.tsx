@@ -7,7 +7,7 @@ import { DateData, Direction } from "react-native-calendars/src/types";
 import dayjs from "dayjs";
 import { useState } from "react";
 import ButtonCustom from "../../../shared/components/ButtonCustom";
-import { CalendarMealPlannerProps, SelectedWeekData, MarkedDates } from "../types/mealPlanner.types";
+import { CalendarMealPlannerProps, SelectedWeekData } from "../types/mealPlanner.types";
 import { calendarFr, findCurrentWeek } from "../../../shared/helpers/date.helper";
 import { Typography } from "../../../assets/fonts";
 

@@ -1,14 +1,26 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchShoppingList, updateShoppingList } from "../api/shoppingList.api";
-import { PayloadUpdateShoppingList } from "../types/shoppingList.types";
+import { fetchShoppingListItem, fetchShoppingsList, updateShoppingListItem } from "../api/shoppingList.api";
+import { HydraResponse, PayloadUpdateShoppingListItems, ShoppingListItemWithIngredient, ShoppingListWithProgress } from "../types/shoppingList.types";
 
 /**
- * Listes de courses
+ * Listes de course
  */
-export const useShoppingLists = (shoppingListId: number, options = {}) => {
+export const useShoppingsList = (options = {}) => {
     return useQuery({
-        queryKey: ["shoppingLists", shoppingListId],
-        queryFn: () => fetchShoppingList(shoppingListId),
+        queryKey: ["shoppingsList"],
+        queryFn: () => fetchShoppingsList(),
+        ...options,
+    });
+};
+
+/**
+ * Items d'une liste de courses
+ */
+export const useShoppingListItem = (shoppingListId: number, options = {}) => {
+    return useQuery({
+        queryKey: ["shoppingListItem", shoppingListId],
+        queryFn: () => fetchShoppingListItem(shoppingListId),
+        select: (res) => res.member,
         ...options,
     });
 };
@@ -16,62 +28,70 @@ export const useShoppingLists = (shoppingListId: number, options = {}) => {
 /**
  * Mise à jour ingredients d'une liste de courses
  */
-export const useUpdateShoppingLists = (shoppingListId: number) => {
-    const queryClient = useQueryClient(); // accés au cache React Query
+export const useUpdateShoppingList = (shoppingListId: number) => {
+    const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: ({
-            shoppingListItemId,
-            isChecked,
-        }: PayloadUpdateShoppingList) =>
-            updateShoppingList({ shoppingListItemId, isChecked }),
-        // Mise à jour immédiate de l'UI
+        mutationFn: ({ shoppingListItemId, isChecked }: PayloadUpdateShoppingListItems) => updateShoppingListItem({ shoppingListItemId, isChecked }),
+
+        // Optimistic update (uniquement isChecked)
         onMutate: async ({ shoppingListItemId, isChecked }) => {
-            // Stop les refetchs en cours
             await queryClient.cancelQueries({
-                queryKey: ["shoppingLists", shoppingListId],
+                queryKey: ["shoppingListItem", shoppingListId],
             });
 
-            // Sauvegarde de l'ancien cache
-            const previousData = queryClient.getQueryData([
-                "shoppingLists",
-                shoppingListId,
-            ]);
+            const previousShoppingListItem = queryClient.getQueryData(["shoppingListItem", shoppingListId]);
+            const previousShoppingsList = queryClient.getQueryData(["shoppingsList"]);
 
-            // Mise à jour du cache React Query
-            queryClient.setQueryData(
-                ["shoppingLists", shoppingListId],
-                (old: any) => {
-                    if (!old) return;
+            // update items list
+            queryClient.setQueryData(["shoppingListItem", shoppingListId], (old: HydraResponse<ShoppingListItemWithIngredient>) => {
+                if (!old) return old;
+
+                return {
+                    ...old,
+                    member: old.member.map((item: ShoppingListItemWithIngredient) => (item.id === shoppingListItemId ? { ...item, isChecked } : item)),
+                };
+            });
+
+            queryClient.setQueryData(["shoppingsList"], (old: ShoppingListWithProgress[]) => {
+                if (!old) return old;
+
+                return old.map((list: ShoppingListWithProgress) => {
+                    if (list.id !== shoppingListId) return list;
+
+                    const nextChecked = list.checkedItems + (isChecked ? 1 : -1);
 
                     return {
-                        ...old,
-                        shoppingListItems: old.shoppingListItems.map(
-                            (item: any) =>
-                                item.id === shoppingListItemId
-                                    ? { ...item, isChecked }
-                                    : item,
-                        ),
+                        ...list,
+                        checkedItems: nextChecked,
+                        progress: Math.round((nextChecked / list.totalItems) * 100),
                     };
-                },
-            );
+                });
+            });
 
-            return { previousData };
+            return { previousShoppingListItem, previousShoppingsList };
         },
-        onError: (_err, _variables, context) => {
-            queryClient.setQueryData(
-                ["shoppingLists", shoppingListId],
-                context?.previousData,
-            );
+
+        // rollback si erreur
+        onError: (_err, _vars, context) => {
+            if (context?.previousShoppingListItem) {
+                queryClient.setQueryData(["shoppingListItem", shoppingListId], context.previousShoppingListItem);
+            }
+
+            if (context?.previousShoppingsList) {
+                queryClient.setQueryData(["shoppingsList"], context.previousShoppingsList);
+            }
         },
-        // Resynchroniser data avec le serveur
-        onSettled: async () => {
-            await queryClient.invalidateQueries({
-                queryKey: ["shoppingLists", shoppingListId],
+
+        // resync serveur (source de vérité)
+        onSettled: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["shoppingListItem", shoppingListId],
             });
-            await queryClient.refetchQueries({
-                queryKey: ["plannings"],
-            });
+
+            /*             queryClient.invalidateQueries({
+                queryKey: ["shoppingsList"],
+            }); */
         },
     });
 };

@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, FlatList, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import ButtonCustom from "../../../shared/components/ButtonCustom";
 import TextApp from "../../../shared/components/TextApp";
 import { Colors, GlobalStyles } from "../../../assets";
@@ -6,8 +6,8 @@ import { Typography } from "../../../assets/fonts";
 import ScreenContainer from "../../../shared/components/ScreenContainer";
 import ModalCustom from "../../../shared/components/ModalCustom";
 import CalendarMealPlanner from "../components/CalendarMealPlanner";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { SelectedWeekData, MarkedDates } from "../types/mealPlanner.types";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { Planning as PlanningType, SelectedWeekData } from "../types/mealPlanner.types";
 import dayjs from "dayjs";
 import { calendarFr, findCurrentWeek } from "../../../shared/helpers/date.helper";
 import { DatesBanner } from "../components/DatesBanner";
@@ -16,15 +16,18 @@ import { HeaderMealPlanner } from "../components/HeaderMealPlanner";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { useSharedValue, withTiming, useAnimatedStyle, withSpring } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
-import { usePlannings } from "../../shoppingList/hooks/usePlannings";
-
-const daysWeek = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
+import { usePlannings } from "../hooks/usePlannings";
+import { Planning } from "../components/Planning";
+import { fr } from "../../../shared/lang/fr";
+import { LoadingError } from "../../../shared/components/LoadingError";
+import { Loading } from "../../../shared/components/Loading";
 
 export const MealPlannerScreen = () => {
     const navigation = useAppNavigation();
 
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
     const [selectedWeek, setSelectedWeek] = useState<SelectedWeekData>(findCurrentWeek(dayjs(new Date())));
+    /* const [planningsWeek, setPlanningsWeek] = useState<PlanningType[] | undefined>(); */
 
     const positionX = useSharedValue<number>(0);
     const translateX = useSharedValue<number>(0);
@@ -32,22 +35,15 @@ export const MealPlannerScreen = () => {
     const { data: plannings, isLoading, error } = usePlannings();
 
     /**
-     * Custom header page
+     * Selectionne les plannings de la semaine selectionnée
      */
-    useEffect(() => {
-        if (plannings) {
-            console.log(
-                "plannings >>>>>>>>>>>> ",
-                plannings.find((p) => {
-                    console.log("weekNumber >>>>>>>>>>>> ", p.weekNumber, selectedWeek.weekOfYear);
-                    console.log("year >>>>>>>>>>>> ", p.year, selectedWeek.year);
-                    if (p.weekNumber === selectedWeek.weekOfYear && p.year === selectedWeek.year) {
-                        return p;
-                    }
-                }),
-            );
-        }
-    }, [selectedWeek]);
+    const planningsWeek = useMemo<PlanningType[]>(() => {
+        if (!plannings) return [];
+
+        return plannings.filter((planning) => {
+            return planning.weekNumber === selectedWeek.weekOfYear && planning.year === selectedWeek.year;
+        });
+    }, [plannings, selectedWeek]);
 
     /**
      * Custom header page
@@ -63,6 +59,13 @@ export const MealPlannerScreen = () => {
      */
     const handleGenerateList = () => {
         console.log("handleGenerateList");
+    };
+
+    /**
+     * Ouverture du planning
+     */
+    const onOpenPlanning = (planningId: number, planningName: string) => {
+        navigation.navigate("PlanningDetails", { planningId: planningId, planningName: planningName });
     };
 
     /**
@@ -108,7 +111,7 @@ export const MealPlannerScreen = () => {
                     translateX.value = withSpring(0);
                 });
             } else if (e.translationX < -80) {
-                translateX.value = withTiming(50, { duration: 150 }, () => {
+                translateX.value = withTiming(-50, { duration: 150 }, () => {
                     scheduleOnRN(onNextWeek);
                     translateX.value = withSpring(0);
                 });
@@ -125,41 +128,39 @@ export const MealPlannerScreen = () => {
         ],
     }));
 
+    const onAddPlanning = () => {
+        navigation.navigate("AddPlanning", {
+            weekNumber: selectedWeek.weekOfYear,
+            year: selectedWeek.year,
+        });
+    };
+
+    if (isLoading) return <Loading />
+
+    if (error) return <LoadingError />
+
     return (
         <ScreenContainer safeAreaTop={false} bgColor={Colors.background}>
             <GestureDetector gesture={panGesture}>
                 <View style={{ flex: 1 }}>
                     <DatesBanner selectedWeek={selectedWeek} onPrevWeek={onPrevWeek} onNextWeek={onNextWeek} />
 
-                    <Animated.View style={[{ flex: 1 }, animatedStyle]}>
-                        <ScrollView style={{ ...GlobalStyles.ph, ...styles.scrollView }} contentContainerStyle={styles.scrollViewContainer}>
-                            {daysWeek.map((day, key) => (
-                                <View key={key} style={styles.dayContainer}>
-                                    <View style={styles.dayHeader}>
-                                        <TextApp style={styles.day}>{day}</TextApp>
-                                    </View>
+                    {!planningsWeek ||
+                        (planningsWeek.length === 0 && (
+                            <View style={[GlobalStyles.ph, styles.generateScheduleContainer]}>
+                                <ButtonCustom title={fr.btnGenerateSchedule} type="color" onPress={onAddPlanning} />
+                            </View>
+                        ))}
 
-                                    <View style={styles.mealContainer}>
-                                        <TextApp style={styles.meal}>Matin</TextApp>
-                                        <TextApp>Thé</TextApp>
-                                        <TextApp>Jus d'orange</TextApp>
-                                    </View>
-
-                                    <View style={styles.mealContainer}>
-                                        <TextApp style={styles.meal}>Midi</TextApp>
-                                        <TextApp>Salade César</TextApp>
-                                    </View>
-
-                                    <View style={styles.mealContainer}>
-                                        <TextApp style={styles.meal}>Soir</TextApp>
-                                        <TextApp>Pizza</TextApp>
-                                    </View>
-                                </View>
-                            ))}
-
-                            <ButtonCustom title="Générer ma liste" type="linear" onPress={handleGenerateList} />
-                        </ScrollView>
-                    </Animated.View>
+                    {planningsWeek && planningsWeek.length > 0 && (
+                        <Animated.View style={[{ flex: 1 }, animatedStyle]}>
+                            <FlatList
+                                data={planningsWeek}
+                                renderItem={({ item }) => <Planning name={item.name} onPress={() => onOpenPlanning(item.id, item.name)} />}
+                                keyExtractor={(item) => item.id.toString()}
+                            />
+                        </Animated.View>
+                    )}
                 </View>
             </GestureDetector>
 
@@ -171,35 +172,28 @@ export const MealPlannerScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    scrollViewContainer: {
-        gap: 20,
-        paddingVertical: 20,
-    },
-    scrollView: {
+    generateScheduleContainer: {
         flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
-    dayContainer: {
-        backgroundColor: Colors.white,
-        borderRadius: 7,
-        overflow: "hidden",
-    },
-    dayHeader: {
-        backgroundColor: Colors.secondaryColor,
-        padding: 10,
-    },
-    day: {
-        textTransform: "uppercase",
-        fontFamily: Typography.bold,
-        color: Colors.mainColor,
+    infoText: {
         fontSize: 16,
-        textAlign: "center",
+        fontFamily: Typography.semiBold,
     },
-    mealContainer: {
-        padding: 10,
+    loadingContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
-    meal: {
-        textTransform: "uppercase",
-        fontFamily: Typography.medium,
+    errorContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    errorText: {
+        color: Colors.danger,
         fontSize: 16,
+        fontFamily: Typography.semiBold,
     },
 });

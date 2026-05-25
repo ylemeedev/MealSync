@@ -1,11 +1,4 @@
-import {
-    ActivityIndicator,
-    StyleSheet,
-    TouchableOpacity,
-    View,
-    KeyboardAvoidingView,
-    ScrollView,
-} from "react-native";
+import { ActivityIndicator, StyleSheet, TouchableOpacity, View, KeyboardAvoidingView, ScrollView } from "react-native";
 import React, { useEffect } from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { logout } from "../../auth/services/auth.service";
@@ -15,6 +8,9 @@ import { Colors, GlobalStyles } from "../../../assets";
 import { Typography } from "../../../assets/fonts";
 import ScreenContainer from "../../../shared/components/ScreenContainer";
 import { FormUser } from "../components/FormUser";
+import { fr } from "../../../shared/lang/fr";
+import { LoadingError } from "../../../shared/components/LoadingError";
+import { Loading } from "../../../shared/components/Loading";
 
 export const UserScreen = () => {
     const { data: user, isLoading, error } = useMe();
@@ -23,21 +19,9 @@ export const UserScreen = () => {
         logout();
     };
 
-    if (isLoading) {
-        return (
-            <View style={styles.loadingContainer}>
-                <ActivityIndicator size={100} color={Colors.mainColor} />
-            </View>
-        );
-    }
+    if (isLoading) return <Loading />;
 
-    if (error || !user) {
-        return (
-            <View style={styles.errorContainer}>
-                <TextApp style={styles.errorText}>Erreur de chargement</TextApp>
-            </View>
-        );
-    }
+    if (error || !user) return <LoadingError />;
 
     return (
         <ScreenContainer safeAreaTop={false} bgColor={Colors.background}>
@@ -45,18 +29,9 @@ export const UserScreen = () => {
                 <ScrollView>
                     <FormUser />
                     <View style={GlobalStyles.ph}>
-                        <TouchableOpacity
-                            onPress={handleDisconnect}
-                            style={styles.btnLogout}
-                        >
-                            <Icon
-                                name="logout"
-                                size={20}
-                                color={Colors.danger}
-                            />
-                            <TextApp style={styles.btnLogoutText}>
-                                Se deconnecter
-                            </TextApp>
+                        <TouchableOpacity onPress={handleDisconnect} style={styles.btnLogout}>
+                            <Icon name="logout" size={20} color={Colors.danger} />
+                            <TextApp style={styles.btnLogoutText}>{fr.btnLogout}</TextApp>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>

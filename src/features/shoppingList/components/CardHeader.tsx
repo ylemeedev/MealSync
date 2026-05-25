@@ -11,12 +11,11 @@ import { Colors } from "../../../assets";
 import { Typography } from "../../../assets/fonts";
 import { CardHeaderProps } from "../types/shoppingList.types";
 
-export const CardHeader = ({ title, date }: CardHeaderProps) => {
+export const CardHeader = ({ title }: CardHeaderProps) => {
     return (
         <View style={styles.cardHeader}>
             <View>
                 <TextApp style={styles.title}>{title}</TextApp>
-                <TextApp style={styles.date}>{date}</TextApp>
             </View>
 
             <Menu>

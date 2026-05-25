@@ -5,22 +5,19 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { Colors, GlobalStyles } from "../../../assets";
 import { ForgotPasswordFormProps } from "../types/auth.types";
 import TextApp from "../../../shared/components/TextApp";
+import { fr } from "../../../shared/lang/fr";
 
-export const ForgotPasswordForm = ({
-    onClickLogin,
-}: ForgotPasswordFormProps) => {
+export const ForgotPasswordForm = ({ onClickLogin }: ForgotPasswordFormProps) => {
     return (
         <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
             <View>
-                <TextApp style={{ ...GlobalStyles.h1, ...styles.h1 }}>
-                    Mot de passe oublié
-                </TextApp>
+                <TextApp style={{ ...GlobalStyles.h1, ...styles.h1 }}>{fr.auth.forgottenPassword}</TextApp>
 
                 {/* Email */}
                 <View style={styles.inputGroup}>
                     <Icon name="mail" size={20} color={Colors.text} />
                     <Input
-                        placeholder="Adresse E-mail"
+                        placeholder={fr.auth.placeholder.emailAddress}
                         autoCorrect={false}
                         autoCapitalize="none"
                         textContentType="emailAddress"
@@ -31,14 +28,10 @@ export const ForgotPasswordForm = ({
             </View>
 
             <View style={styles.bottomContainer}>
-                <ButtonCustom
-                    title="Envoyer"
-                    type="color"
-                    onPress={() => console.log("Envoyer")}
-                />
+                <ButtonCustom title={fr.btnSend} type="color" onPress={() => console.log("Envoyer")} />
 
                 <View style={styles.btnRegisterContainer}>
-                    <ButtonCustom title="Se connecter" onPress={onClickLogin} />
+                    <ButtonCustom title={fr.btnLogin} onPress={onClickLogin} />
                 </View>
             </View>
         </KeyboardAvoidingView>

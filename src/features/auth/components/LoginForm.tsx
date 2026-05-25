@@ -9,6 +9,7 @@ import TextApp from "../../../shared/components/TextApp";
 import { useState } from "react";
 import { loginApi } from "../api/auth";
 import { setToken, setRefreshToken } from "../services/auth.service";
+import { fr } from "../../../shared/lang/fr";
 
 export const LoginForm = ({
     onClickRegister,
@@ -29,7 +30,7 @@ export const LoginForm = ({
             setToken(data.token);
             setRefreshToken(data.refresh_token);
 
-            navigation.replace("Main", { screen: "ShoppingList" });
+            navigation.replace("Main", { screen: "MealPlanner" });
         } catch (error: any) {
             if (error?.response?.status === 401) {
                 setError("Identifiants incorrects");
@@ -43,14 +44,14 @@ export const LoginForm = ({
         <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
             <View>
                 <TextApp style={{ ...GlobalStyles.h1, ...styles.h1 }}>
-                    Se connecter
+                    {fr.auth.title.login}
                 </TextApp>
 
                 {/* Email */}
                 <View style={styles.inputGroup}>
                     <Icon name="mail" size={20} color={Colors.text} />
                     <Input
-                        placeholder="Adresse E-mail"
+                        placeholder={fr.auth.placeholder.emailAddress}
                         autoCorrect={false}
                         autoCapitalize="none"
                         textContentType="emailAddress"
@@ -64,7 +65,7 @@ export const LoginForm = ({
                 <View style={{ ...styles.inputGroup, marginBottom: 10 }}>
                     <Icon name="lock" size={20} color={Colors.text} />
                     <Input
-                        placeholder="Mot de passe"
+                        placeholder={fr.auth.placeholder.password}
                         secureTextEntry={true}
                         autoCapitalize="none"
                         autoCorrect={false}
@@ -75,7 +76,7 @@ export const LoginForm = ({
                 </View>
 
                 <ButtonCustom
-                    title="Mot de passe oublié"
+                    title={fr.btnForgottenPassword}
                     onPress={onClickForgotPassword}
                     styleButton={styles.btnForgotPassword}
                 />
@@ -85,14 +86,14 @@ export const LoginForm = ({
                 {error && <TextApp style={styles.error}>{error}</TextApp>}
 
                 <ButtonCustom
-                    title="Se connecter"
+                    title={fr.btnLogin}
                     type="color"
                     onPress={handleLogin}
                 />
 
                 <View style={styles.btnRegisterContainer}>
                     <ButtonCustom
-                        title="S'inscrire"
+                        title={fr.btnRegister}
                         onPress={onClickRegister}
                     />
                 </View>

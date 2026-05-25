@@ -14,6 +14,7 @@ import { BottomSheetRef } from "../../../shared/types/types";
 import { loadToken, logout } from "../services/auth.service";
 import { useAppNavigation } from "../../../app/navigation/types/rootNavigator.types";
 import { fetchMe } from "../../user/api/user.api";
+import { fr } from "../../../shared/lang/fr";
 
 export const AuthScreen = () => {
     const navigation = useAppNavigation();
@@ -50,7 +51,7 @@ export const AuthScreen = () => {
 
                 //await fetchMe()
 
-                navigation.replace("Main", { screen: "ShoppingList" });
+                navigation.replace("Main", { screen: "MealPlanner" });
             } catch (error) {
                 console.log("🚀 - AUTHSCREEN ~ initAuth:", error);
                 await logout(false);
@@ -72,8 +73,8 @@ export const AuthScreen = () => {
                 {/* Logo */}
                 <View style={styles.logo}>
                     <Icon name="dining" size={100} color={Colors.white} />
-                    <TextApp style={styles.logoText}>Meal Planner</TextApp>
-                    <TextApp style={styles.bgText}>Bienvenue</TextApp>
+                    <TextApp style={styles.logoText}>{fr.titleApp}</TextApp>
+                    <TextApp style={styles.bgText}>{fr.welcome}</TextApp>
                 </View>
 
                 {!ready ? (
@@ -82,9 +83,9 @@ export const AuthScreen = () => {
                     </View>
                 ) : (
                     <View style={{ ...GlobalStyles.ph, ...styles.btnsContainer }}>
-                        <ButtonCustom title="Se connecter" type="color" onPress={() => handlePress("login")} />
-                        <ButtonCustom title="Créer un compte" type="light" onPress={() => handlePress("register")} styleButton={styles.btnRegister} />
-                        <ButtonCustom title="Mot de passe oublié" onPress={() => handlePress("forgotPassword")} styleButton={styles.btnForgotPassword} />
+                        <ButtonCustom title={fr.btnLogin} type="color" onPress={() => handlePress("login")} />
+                        <ButtonCustom title={fr.btnRegister} type="light" onPress={() => handlePress("register")} styleButton={styles.btnRegister} />
+                        <ButtonCustom title={fr.btnForgottenPassword} onPress={() => handlePress("forgotPassword")} styleButton={styles.btnForgotPassword} />
                     </View>
                 )}
             </ScreenContainer>

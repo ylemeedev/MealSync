@@ -5,6 +5,8 @@ import { TabNavigator } from "./TabNavigator";
 import { CheckedShoppingListScreen } from "../../features/shoppingList/screens";
 import { Colors } from "../../assets";
 import { HeaderCheckedShoppingList } from "../../features/shoppingList/components/HeaderCheckedShoppingList";
+import { PlanningDetailsScreen } from "../../features/mealPlanner/screens/PlanningDetailsScreen";
+import { AddPlanningScreen } from "../../features/mealPlanner/screens/AddPlanningScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -28,14 +30,12 @@ const RootNavigator = () => {
                 name="CheckedShoppingList"
                 component={CheckedShoppingListScreen}
                 options={({ route }) => ({
-                    header: () => (
-                        <HeaderCheckedShoppingList
-                            title={route.params.shoppingListName}
-                        />
-                    ),
+                    header: () => <HeaderCheckedShoppingList title={route.params.shoppingListName} />,
                     headerShown: true,
                 })}
             />
+            <Stack.Screen name="PlanningDetails" component={PlanningDetailsScreen} />
+            <Stack.Screen name="AddPlanning" component={AddPlanningScreen} />
         </Stack.Navigator>
     );
 };

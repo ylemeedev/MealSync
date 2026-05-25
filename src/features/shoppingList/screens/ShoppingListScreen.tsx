@@ -1,36 +1,30 @@
-import { StyleSheet, View, ActivityIndicator } from "react-native";
-import { useEffect, useMemo, useRef } from "react";
+import { StyleSheet, View, ActivityIndicator, FlatList } from "react-native";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import ScreenContainer from "../../../shared/components/ScreenContainer";
 import { Colors, GlobalStyles } from "../../../assets";
-import { ShoppingList } from "../components/ShoppingList";
 import { Filters } from "../components/Filters";
 import { BottomSheetContainer } from "../../../shared/components/BottomSheetContainer";
 import { FiltersForm } from "../components/FiltersForm";
 import { BottomSheetRef } from "../../../shared/types/types";
 import { SortForm } from "../components/SortForm";
 import { SearchForm } from "../components/SearchForm";
-import { usePlannings } from "../hooks/usePlannings";
 import { useMe } from "../../user/hooks/useUser";
 import { Typography } from "../../../assets/fonts";
 import TextApp from "../../../shared/components/TextApp";
 import ButtonCustom from "../../../shared/components/ButtonCustom";
-import { PlanningList, ShoppingList as ShoppingListType } from "../types/shoppingList.types";
+import { ShoppingListCard } from "../components/ShoppingListCard";
+import { useShoppingsList } from "../hooks/useShoppingLists";
 
 export const ShoppingListScreen = () => {
+
     const { data: user, isLoading: isLoadingUser, error: errorUser } = useMe();
-    const { data: planningLists, isLoading: isLoadingListsLoading, error: errorListsLoading } = usePlannings({ enabled: !!user?.id });
+   /*  const { data: shoppingsList, isLoading: isLoadingShoppingsLists, error: errorShoppingsLists } = useShoppingsList({ enabled: !!user?.id }); */
 
     const bottomSheetRef = useRef<BottomSheetRef>(null);
 
-    const shoppingLists = useMemo<ShoppingListType[]>(() => {
-        if (!planningLists) return [];
-
-        return planningLists.flatMap((planning: PlanningList) => planning.shoppingLists ?? []);
-    }, [planningLists]);
-
     const handlePressFilters = () => bottomSheetRef.current?.snapToIndex(0);
-
-    if (isLoadingUser || isLoadingListsLoading) {
+/* 
+    if (isLoadingUser || isLoadingShoppingsLists) {
         return (
             <View style={styles.loadingContainer}>
                 <ActivityIndicator size={100} color={Colors.mainColor} />
@@ -38,7 +32,7 @@ export const ShoppingListScreen = () => {
         );
     }
 
-    if (!user || errorUser || errorListsLoading) {
+    if (!user || errorUser || errorShoppingsLists) {
         return (
             <View style={styles.errorContainer}>
                 <TextApp style={styles.errorText}>Erreur de chargement</TextApp>
@@ -46,13 +40,13 @@ export const ShoppingListScreen = () => {
         );
     }
 
-    if (!shoppingLists) {
+    if (!shoppingsList) {
         return (
             <View style={{ ...GlobalStyles.ph, ...styles.infoContainer }}>
                 <ButtonCustom title="Commencer" onPress={() => {}} type="linear" styleButton={styles.btnStartList} />
             </View>
         );
-    }
+    } */
 
     return (
         <>
@@ -67,7 +61,13 @@ export const ShoppingListScreen = () => {
                         />
                     </View>
                     <SearchForm onChange={(text) => console.log(text)} /> */}
-                    <ShoppingList shoppingLists={shoppingLists} />
+
+{/*                     <FlatList
+                        data={shoppingsList}
+                        renderItem={({ item }) => <ShoppingListCard shoppingList={item} />}
+                        keyExtractor={(item) => item.id.toString()}
+                        contentContainerStyle={styles.flatList}
+                    /> */}
                 </View>
             </ScreenContainer>
 
@@ -109,5 +109,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+    },
+    flatList: {
+        paddingVertical: 15,
     },
 });

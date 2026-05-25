@@ -5,6 +5,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { Colors, GlobalStyles } from "../../../assets";
 import { RegisterFormProps } from "../types/auth.types";
 import TextApp from "../../../shared/components/TextApp";
+import { fr } from "../../../shared/lang/fr";
 
 export const RegisterForm = ({
     onClickLogin,
@@ -14,14 +15,14 @@ export const RegisterForm = ({
         <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
             <View>
                 <TextApp style={{ ...GlobalStyles.h1, ...styles.h1 }}>
-                    Créer un compte
+                    {fr.auth.title.signUp}
                 </TextApp>
 
                 {/* Username */}
                 <View style={styles.inputGroup}>
                     <Icon name="account-circle" size={20} color={Colors.text} />
                     <Input
-                        placeholder="Pseudo"
+                        placeholder={fr.auth.placeholder.pseudo}
                         autoCorrect={false}
                         autoCapitalize="none"
                         textContentType="emailAddress"
@@ -34,7 +35,7 @@ export const RegisterForm = ({
                 <View style={styles.inputGroup}>
                     <Icon name="mail" size={20} color={Colors.text} />
                     <Input
-                        placeholder="Adresse E-mail"
+                        placeholder={fr.auth.placeholder.emailAddress}
                         autoCorrect={false}
                         autoCapitalize="none"
                         textContentType="emailAddress"
@@ -47,7 +48,7 @@ export const RegisterForm = ({
                 <View style={styles.inputGroup}>
                     <Icon name="lock" size={20} color={Colors.text} />
                     <Input
-                        placeholder="Votre mot de passe"
+                        placeholder={fr.auth.placeholder.password}
                         secureTextEntry={true}
                         autoCapitalize="none"
                         autoCorrect={false}
@@ -60,7 +61,7 @@ export const RegisterForm = ({
                 <View style={{ ...styles.inputGroup, marginBottom: 10 }}>
                     <Icon name="lock" size={20} color={Colors.text} />
                     <Input
-                        placeholder="Confirmez votre mot de passe"
+                        placeholder={fr.auth.placeholder.confirmPassword}
                         secureTextEntry={true}
                         autoCapitalize="none"
                         autoCorrect={false}
@@ -70,7 +71,7 @@ export const RegisterForm = ({
                 </View>
 
                 <ButtonCustom
-                    title="Mot de passe oublié"
+                    title={fr.btnForgottenPassword}
                     onPress={onClickForgotPassword}
                     styleButton={styles.btnForgotPassword}
                 />
@@ -78,12 +79,12 @@ export const RegisterForm = ({
 
             <View style={styles.bottomContainer}>
                 <ButtonCustom
-                    title="Créer un compte"
+                    title={fr.btnSignUp}
                     type="color"
                     onPress={() => console.log("Créer un compte")}
                 />
                 <View style={styles.btnRegisterContainer}>
-                    <ButtonCustom title="Se connecter" onPress={onClickLogin} />
+                    <ButtonCustom title={fr.btnLogin} onPress={onClickLogin} />
                 </View>
             </View>
         </KeyboardAvoidingView>

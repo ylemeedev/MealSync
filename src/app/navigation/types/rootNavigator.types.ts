@@ -12,6 +12,8 @@ export type RootStackParamList = {
     Auth: undefined;
     Main: NavigatorScreenParams<RootTabParamList>;
     CheckedShoppingList: { shoppingListId: number; shoppingListName: string };
+    PlanningDetails: { planningId: number; planningName: string };
+    AddPlanning: { weekNumber: number; year: number };
 };
 
 export type AppNavigation = NativeStackNavigationProp<RootStackParamList>;
