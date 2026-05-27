@@ -1,11 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DietType, PlanningWeek } from "../types/mealPlanner.types";
 import { planningGenerator, savePlanning } from "../api/planningGenerator.api";
 
 export const usePlanningGenerator = () => {
     return useMutation({
         mutationFn: (typeMenu: DietType) => {
-            console.log("ookokokokokoko")
             return planningGenerator(typeMenu);
         },
         onError: (error) => {
@@ -16,10 +15,33 @@ export const usePlanningGenerator = () => {
 };
 
 export const useSavePlanning = () => {
+    const queryClient = useQueryClient();
+
     return useMutation({
-        mutationFn: ({ planningId, planning }: { planningId: number; planning: PlanningWeek }) => savePlanning(planningId, planning),
-        onError: (error) => {
-            console.log("Planning error:", error);
+        mutationFn: ({
+            planning,
+            planningId,
+            name,
+            weekNumber,
+            year,
+        }: {
+            planning: PlanningWeek;
+            planningId?: number;
+            name?: string;
+            weekNumber?: number;
+            year?: number;
+        }) => savePlanning(planning, planningId, name, weekNumber, year),
+        onSuccess: () => {
+            // Mise à jour des plannings
+            queryClient.invalidateQueries({
+                queryKey: ["plannings"],
+            });
+        },
+        onError: (error: any) => {
+            return {
+                success: false,
+                error: error?.response?.data?.error ?? "Unknown error",
+            };
         },
     });
 };

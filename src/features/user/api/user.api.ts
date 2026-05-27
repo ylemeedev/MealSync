@@ -1,10 +1,10 @@
 import { api } from "../../../shared/api/axios";
-import { PayloadUpdateMe } from "../types/user.types";
+import { PayloadUpdateMe, UserState } from "../types/user.types";
 
 /**
  * Data user en cours
  */
-export const fetchMe = async () => {
+export const fetchMe = async (): Promise<UserState> => {
     const { data } = await api.get("/me");
     return data;
 };

@@ -31,11 +31,11 @@ export interface DatesBannerProps {
     onNextWeek: () => void;
 }
 
-export interface HeaderMealPlannerProps {
+export interface PlanningListHeaderProps {
     onOpenWeekSelector: () => void;
 }
 
-export interface HeaderPlanningDetailsprops {
+export interface PlanningDetailsHeaderprops {
     name: string;
     handlePlanningGenerate: () => void;
 }
@@ -112,3 +112,13 @@ export interface MealContainerProps {
     timeOfDay: TimeOfDay;
     dayWeek: PlanningTimeOfDay;
 }
+
+export type SavePlanningResponse =
+    | {
+          success: true;
+          planningId: number;
+      }
+    | {
+          success: false;
+          error: string;
+      };

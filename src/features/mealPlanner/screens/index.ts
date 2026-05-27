@@ -1,1 +1,1 @@
-export { MealPlannerScreen } from "./MealPlannerScreen";
+export { PlanningListScreen } from "./PlanningListScreen";

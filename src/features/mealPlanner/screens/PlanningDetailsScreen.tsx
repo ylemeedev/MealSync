@@ -1,7 +1,7 @@
 import { StyleSheet, ScrollView, View, ActivityIndicator } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useAppNavigation } from "../../../app/navigation/types/rootNavigator.types";
-import { HeaderPlanningDetails } from "../components/HeaderPlanningDetails";
+import { PlanningDetailsHeader } from "../components/PlanningDetailsHeader";
 import ScreenContainer from "../../../shared/components/ScreenContainer";
 import { Colors, GlobalStyles } from "../../../assets";
 import TextApp from "../../../shared/components/TextApp";
@@ -150,9 +150,9 @@ export const PlanningDetailsScreen = ({ route }: PlanningDetailsScreenProps) => 
     };
 
     /**
-     * Remise à zéro avec les données de la bdd
+     * Restore avec les données de la bdd
      */
-    const onResetPlanning = () => {
+    const onRestorePlanning = () => {
         if (!planningRecipes) return;
         setDaysWeek(formatPlanningWeek(planningRecipes));
         setGeneratedPlanning(false);
@@ -167,10 +167,7 @@ export const PlanningDetailsScreen = ({ route }: PlanningDetailsScreenProps) => 
         const planning = testJson;
         if (!planning) return;
 
-        mutateSavePlanning({
-            planningId,
-            planning,
-        });
+        mutateSavePlanning({ planning, planningId });
     };
 
     /**
@@ -194,12 +191,12 @@ export const PlanningDetailsScreen = ({ route }: PlanningDetailsScreenProps) => 
     }, [planningGenerated]);
 
     /**
-     * Surcharge du header
+     * Surcharge header
      */
     useLayoutEffect(() => {
         navigation.setOptions({
             headerShown: true,
-            header: () => <HeaderPlanningDetails name={planningName} handlePlanningGenerate={handlePlanningGenerate} />,
+            header: () => <PlanningDetailsHeader name={planningName} handlePlanningGenerate={handlePlanningGenerate} />,
         });
     }, [navigation]);
 
@@ -215,8 +212,8 @@ export const PlanningDetailsScreen = ({ route }: PlanningDetailsScreenProps) => 
 
             {generatedPlanning && (
                 <View style={[GlobalStyles.ph, styles.btnsWeek]}>
-                    <ButtonCustom title={fr.btnCancel} type="color" onPress={onResetPlanning} styleButton={{ width: "48%" }} />
-                    <ButtonCustom title={fr.btnSave} type="color" onPress={onSavePlanning} styleButton={{ width: "48%" }} />
+                    <ButtonCustom title={fr.btnRestore} type="color" onPress={onRestorePlanning} styleButton={{ width: "49%" }} />
+                    <ButtonCustom title={fr.btnSave} type="color" onPress={onSavePlanning} styleButton={{ width: "49%" }} />
                 </View>
             )}
         </ScreenContainer>
@@ -235,6 +232,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        marginBottom: 10,
+        paddingVertical: 10,
     },
 });

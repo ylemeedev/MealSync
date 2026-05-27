@@ -61,3 +61,7 @@ export interface ModalCustomProps {
     isModalVisible: boolean;
     onClose: () => void;
 }
+
+export interface HydraResponse<T> {
+    member: T[];
+}

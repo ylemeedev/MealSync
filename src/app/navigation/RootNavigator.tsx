@@ -2,11 +2,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AuthScreen } from "../../features/auth/screens";
 import { RootStackParamList } from "./types/rootNavigator.types";
 import { TabNavigator } from "./TabNavigator";
-import { CheckedShoppingListScreen } from "../../features/shoppingList/screens";
 import { Colors } from "../../assets";
-import { HeaderCheckedShoppingList } from "../../features/shoppingList/components/HeaderCheckedShoppingList";
 import { PlanningDetailsScreen } from "../../features/mealPlanner/screens/PlanningDetailsScreen";
 import { AddPlanningScreen } from "../../features/mealPlanner/screens/AddPlanningScreen";
+import { UserPreferenceScreen, UserProfilScreen } from "../../features/user/screens";
+import { fr } from "../../shared/lang/fr";
+import { UserSettingsHeader } from "../../features/user/components/UserSettingsHeader";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -26,16 +27,24 @@ const RootNavigator = () => {
         >
             <Stack.Screen name="Auth" component={AuthScreen} />
             <Stack.Screen name="Main" component={TabNavigator} />
-            <Stack.Screen
-                name="CheckedShoppingList"
-                component={CheckedShoppingListScreen}
-                options={({ route }) => ({
-                    header: () => <HeaderCheckedShoppingList title={route.params.shoppingListName} />,
-                    headerShown: true,
-                })}
-            />
             <Stack.Screen name="PlanningDetails" component={PlanningDetailsScreen} />
             <Stack.Screen name="AddPlanning" component={AddPlanningScreen} />
+            <Stack.Screen
+                name="UserProfil"
+                component={UserProfilScreen}
+                options={{
+                    header: () => <UserSettingsHeader title={fr.user.title.profil} />,
+                    headerShown: true,
+                }}
+            />
+            <Stack.Screen
+                name="UserPreference"
+                component={UserPreferenceScreen}
+                options={{
+                    header: () => <UserSettingsHeader title={fr.user.title.preferences} />,
+                    headerShown: true,
+                }}
+            />
         </Stack.Navigator>
     );
 };

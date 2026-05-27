@@ -18,4 +18,15 @@ export const GlobalStyles = StyleSheet.create({
     ph: {
         paddingHorizontal: 20,
     },
+    card: {
+        borderRadius: 10,
+        shadowColor: "#000000a1",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.12,
+        shadowRadius: 12,
+        elevation: 3,
+    },
 });

@@ -2,8 +2,10 @@ export const fr = {
     titleApp: "Meal Planner",
     welcome: "Bienvenue",
 
-    btnGenerateSchedule: "Générer un planning",
-    btnSave: "Je sauvegarde",
+    btnGenerateSchedule: "Générer mes repas",
+    btnRefreshSchedule: "Actualiser",
+    btnAddSchedule: "Ajouter un planning",
+    btnSave: "Sauvegarder",
     btnCancel: "Annuler",
     btnSend: "Envoyer",
     btnLogin: "Se connecter",
@@ -11,12 +13,20 @@ export const fr = {
     btnRegister: "S'enregistrer",
     btnSignUp: "Créer un compte",
     btnLogout: "Se déconnecter",
-
-    placeholderTitlePlanning: "Titre de mon planning",
+    btnRestore: "Rétablir",
 
     isPending: "Chargement",
     error: "Erreur",
     loadingError: "Erreur de chargement",
+
+    planning: {
+        title: {
+            newPlanning: "Nouveau planning",
+        },
+        placeholder: {
+            title: "Ex : Semaine équilibrée",
+        },
+    },
 
     auth: {
         forgottenPassword: "Mot de passe oublié",
@@ -33,6 +43,10 @@ export const fr = {
     },
 
     user: {
+        title: {
+            preferences: "Mes préférences",
+            profil: "Mes informations personnelles",
+        },
         label: {
             emailAddress: "Adresse email",
             password: "Mot de passe",
@@ -40,7 +54,6 @@ export const fr = {
             lastName: "Nom",
             username: "Nom d'utilisateur",
             goal: "Objectif",
-            preferences: "Préférences",
             profilePicture: "Photo de profil",
             birthDate: "Date de naissance",
         },
@@ -51,9 +64,14 @@ export const fr = {
             lastName: "Veuillez entrer votre prénom",
             username: "Veuillez entrer votre nom",
             goal: "Veuillez selectionner votre objectif",
-            preferences: "Veuillez selectionner vos préférences",
             profilePicture: "Importer une photo",
             birthDate: "Veuillez entrer votre date de naissance",
+        },
+        preferences: {
+            goal: "Objectifs",
+            lifestyle: "Mode de vie",
+            diet: "Régime alimentaire",
+            exclusion: "Exclusions",
         },
     },
 };

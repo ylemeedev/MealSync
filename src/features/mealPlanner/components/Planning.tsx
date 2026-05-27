@@ -5,10 +5,9 @@ import { PlanningProps } from "../types/mealPlanner.types";
 import { Typography } from "../../../assets/fonts";
 
 export const Planning = ({ name, onPress }: PlanningProps) => {
-
     return (
         <View style={GlobalStyles.ph}>
-            <TouchableOpacity onPress={onPress} style={styles.planningContainer} activeOpacity={0.9}>
+            <TouchableOpacity onPress={onPress} style={[GlobalStyles.card, styles.planningContainer]} activeOpacity={0.9}>
                 <View style={styles.content}>
                     <TextApp style={styles.textContent}>{name}</TextApp>
                 </View>
@@ -33,6 +32,6 @@ const styles = StyleSheet.create({
     },
     textContent: {
         fontSize: 16,
-        fontFamily: Typography.semiBold
+        fontFamily: Typography.semiBold,
     },
 });

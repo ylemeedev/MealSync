@@ -1,13 +1,12 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { Colors } from "../../assets";
-import { HeaderShoppingList } from "../../features/shoppingList/components/HeaderShoppingList";
-import { ShoppingListScreen } from "../../features/shoppingList/screens";
-import { MealPlannerScreen } from "../../features/mealPlanner/screens";
-import { BudgetScreen } from "../../features/budget/screens/BudgetScreen";
+import { RecipeScreen } from "../../features/recipe/screens";
+import { PlanningListScreen } from "../../features/mealPlanner/screens";
 import { UserScreen } from "../../features/user/screens";
 import { RootTabParamList } from "./types/rootNavigator.types";
-import { HeaderUser } from "../../features/user/components/HeaderUser";
+import { UserHeader } from "../../features/user/components/UserHeader";
+import { FavoriteScreen } from "../../features/favorite/screens";
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
@@ -41,33 +40,33 @@ export const TabNavigator = () => {
             }}
         >
             <Tab.Screen
-                name="MealPlanner"
-                component={MealPlannerScreen}
+                name="PlanningList"
+                component={PlanningListScreen}
                 options={{
                     tabBarIcon: ({ color, size }) => <Icon name="calendar-month" size={size} color={color} />,
                 }}
             />
             <Tab.Screen
-                name="ShoppingList"
-                component={ShoppingListScreen}
+                name="Recipe"
+                component={RecipeScreen}
                 options={{
-                    header: () => <HeaderShoppingList />,
-                    tabBarIcon: ({ color, size }) => <Icon name="checklist" size={size} color={color} />,
+                    title: "Recettes",
+                    tabBarIcon: ({ color, size }) => <Icon name="view-carousel" size={size} color={color} />,
                 }}
             />
             <Tab.Screen
-                name="Budget"
-                component={BudgetScreen}
+                name="Favorite"
+                component={FavoriteScreen}
                 options={{
-                    title: "Mon budget",
-                    tabBarIcon: ({ color, size }) => <Icon name="euro" size={size} color={color} />,
+                    title: "Mes favoris",
+                    tabBarIcon: ({ color, size }) => <Icon name="favorite" size={size} color={color} />,
                 }}
             />
             <Tab.Screen
                 name="User"
                 component={UserScreen}
                 options={{
-                    header: () => <HeaderUser />,
+                    header: () => <UserHeader />,
                     tabBarIcon: ({ color, size }) => <Icon name="account-circle" size={size} color={color} />,
                 }}
             />

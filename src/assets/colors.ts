@@ -8,14 +8,15 @@ export const Colors = {
     dark: "#343a40",
     white: "#ffffff",
 
-    mainColor: "#85a444",
-    secondaryColor: "#cbdda5",
+    mainColor: "#7CB342",
+    secondaryColor: "#A5D6A7",
+    accentColor: "#f59e0b",
 
-    linearStart: "#85a444",
-    linearEnd: "#cbdda5",
+    linearStart: "#7CB342",
+    linearEnd: "#A5D6A7",
 
-    background: "#f0f0f0",
-    backgroundColor: "#85a444",
+    background: "#F8F9FA",
+    backgroundColor: "#7CB342",
 
     text: "#555555",
 

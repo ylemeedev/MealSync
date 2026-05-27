@@ -91,7 +91,7 @@ export const AuthScreen = () => {
             </ScreenContainer>
 
             {/* Form */}
-            <BottomSheetContainer ref={bottomSheetRef} bgColor={Colors.white}>
+            <BottomSheetContainer ref={bottomSheetRef} bgColor={Colors.background}>
                 <FormContainer formShow={formShow} onClickBottomSheet={(val) => handlePress(val)} />
             </BottomSheetContainer>
         </>
