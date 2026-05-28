@@ -1,11 +1,11 @@
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { ActivityIndicator, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import LinearGradient from "react-native-linear-gradient";
 import { ButtonCustomProps, ButtonTextProps } from "../types/types";
 import { Colors } from "../../assets";
 import TextApp from "./TextApp";
 
-const ButtonCustom = ({ title, type, styleButton, styleText, titleColor = "dark", onPress, ...props }: ButtonCustomProps) => {
+const ButtonCustom = ({ title, type, styleButton, styleText, titleColor = "dark", onPress, loader = false, ...props }: ButtonCustomProps) => {
     const ButtonText = ({ color }: ButtonTextProps) => (
         <TextApp
             style={{
@@ -30,7 +30,7 @@ const ButtonCustom = ({ title, type, styleButton, styleText, titleColor = "dark"
                 }}
                 {...props}
             >
-                <ButtonText color="light" />
+                {loader ? <ActivityIndicator size={28} color={Colors.white} /> : <ButtonText color="light" />}
             </TouchableOpacity>
         );
     } else if (type === "light") {
@@ -45,7 +45,7 @@ const ButtonCustom = ({ title, type, styleButton, styleText, titleColor = "dark"
                 }}
                 {...props}
             >
-                <ButtonText color="dark" />
+                {loader ? <ActivityIndicator size={28} color={Colors.text} /> : <ButtonText color="dark" />}
             </TouchableOpacity>
         );
     } else if (type === "linear") {
@@ -61,6 +61,7 @@ const ButtonCustom = ({ title, type, styleButton, styleText, titleColor = "dark"
                     }}
                     {...props}
                 >
+                    {loader ? <ActivityIndicator size={28} color={Colors.white} /> : <ButtonText color="light" />}
                     <ButtonText color="light" />
                 </LinearGradient>
             </TouchableOpacity>

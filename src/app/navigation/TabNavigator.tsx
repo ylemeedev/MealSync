@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { Colors } from "../../assets";
 import { RecipeScreen } from "../../features/recipe/screens";
-import { PlanningListScreen } from "../../features/mealPlanner/screens";
+import { PlanningListScreen } from "../../features/planning/screens";
 import { UserScreen } from "../../features/user/screens";
 import { RootTabParamList } from "./types/rootNavigator.types";
 import { UserHeader } from "../../features/user/components/UserHeader";

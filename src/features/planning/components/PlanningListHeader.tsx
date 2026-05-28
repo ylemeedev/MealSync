@@ -5,7 +5,7 @@ import { Colors } from "../../../assets";
 import TextApp from "../../../shared/components/TextApp";
 import { Typography } from "../../../assets/fonts";
 import { HeaderContainer } from "../../../shared/components/HeaderContainer";
-import { PlanningListHeaderProps } from "../types/mealPlanner.types";
+import { PlanningListHeaderProps } from "../types/planning.types";
 
 export const PlanningListHeader = ({ onOpenWeekSelector }: PlanningListHeaderProps) => {
     return (

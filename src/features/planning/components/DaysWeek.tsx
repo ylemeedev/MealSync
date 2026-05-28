@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import { DaysWeekProps } from "../types/mealPlanner.types";
+import { DaysWeekProps } from "../types/planning.types";
 import { Colors } from "../../../assets";
 import { Typography } from "../../../assets/fonts";
 import TextApp from "../../../shared/components/TextApp";

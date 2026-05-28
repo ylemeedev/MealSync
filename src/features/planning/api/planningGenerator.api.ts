@@ -1,5 +1,5 @@
 import { api } from "../../../shared/api/axios";
-import { DietType, PlanningWeek, SavePlanningResponse } from "../types/mealPlanner.types";
+import { DietType, PlanningWeek, SavePlanningResponse } from "../types/planning.types";
 
 export const planningGenerator = async (typeMenu: DietType): Promise<PlanningWeek> => {
     const menuTypes: Record<DietType, string> = {

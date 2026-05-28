@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { MarkedDates, SelectedWeekData } from "../../features/mealPlanner/types/mealPlanner.types";
+import { MarkedDates, SelectedWeekData } from "../../features/planning/types/planning.types";
 import { Colors } from "../../assets";
 import isoWeek from "dayjs/plugin/isoWeek";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";

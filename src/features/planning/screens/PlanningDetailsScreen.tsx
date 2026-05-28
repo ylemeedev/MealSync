@@ -1,17 +1,19 @@
-import { StyleSheet, ScrollView, View, Keyboard } from "react-native";
+import { StyleSheet, ScrollView, View } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { Colors, GlobalStyles } from "../../../assets";
-import ScreenContainer from "../../../shared/components/ScreenContainer";
-import ButtonCustom from "../../../shared/components/ButtonCustom";
 import { useAppNavigation } from "../../../app/navigation/types/rootNavigator.types";
-import { PlanningAddHeader } from "../components/PlanningAddHeader";
-import { AddPlanningScreenProps, Planning, PlanningWeek } from "../types/mealPlanner.types";
-import Input from "../../../shared/components/Input";
-import { usePlanningGenerator, useSavePlanning } from "../hooks/useGeneratePlanning";
-import { formatPlanningWeek } from "../../../shared/helpers/planning.helper";
+import { PlanningDetailsHeader } from "../components/PlanningDetailsHeader";
+import ScreenContainer from "../../../shared/components/ScreenContainer";
+import { Colors, GlobalStyles } from "../../../assets";
+import { usePlanningRecipe } from "../hooks/usePlanningRecipe";
+import { PlanningDetailsScreenProps, DayOfWeek, PlanningWeek } from "../types/planning.types";
 import { DaysWeek as DaysWeekView } from "../components/DaysWeek";
+import { usePlanningGenerator, useSavePlanning } from "../hooks/useGeneratePlanning";
+import ButtonCustom from "../../../shared/components/ButtonCustom";
+import { formatPlanningWeek } from "../../../shared/helpers/planning.helper";
 import { days } from "../../../shared/constants/constants";
 import { fr } from "../../../shared/lang/fr";
+import { LoadingError } from "../../../shared/components/LoadingError";
+import PlanningDetailsSkeleton from "../components/skeleton/PlanningDetailsSkeleton";
 
 const testJson = {
     monday: {
@@ -109,27 +111,22 @@ const testJson = {
     },
 };
 
-export const AddPlanningScreen = ({ route }: AddPlanningScreenProps) => {
+export const PlanningDetailsScreen = ({ route }: PlanningDetailsScreenProps) => {
     const navigation = useAppNavigation();
+    const { planningId, planningName } = route.params;
 
-    const { weekNumber, year } = route.params;
+    const { data: planningRecipes, isLoading, error } = usePlanningRecipe(planningId);
 
     const [daysWeek, setDaysWeek] = useState<PlanningWeek>();
-    const [form, setForm] = useState<Omit<Planning, "id">>({
-        weekNumber: weekNumber,
-        year: year,
-        name: "",
-    });
+    const [generatedPlanning, setGeneratedPlanning] = useState<boolean>(false);
 
     /**
-     * Surcharge header
+     * Récupère les données de la BDD
      */
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerShown: true,
-            header: () => <PlanningAddHeader />,
-        });
-    }, [navigation]);
+    useEffect(() => {
+        if (!planningRecipes) return;
+        setDaysWeek(formatPlanningWeek(planningRecipes));
+    }, [planningRecipes]);
 
     /**
      * Requete open API (genère un nouveau planning pour la semaine)
@@ -142,49 +139,33 @@ export const AddPlanningScreen = ({ route }: AddPlanningScreenProps) => {
         error: errorPlanningGenerated,
     } = usePlanningGenerator();
 
-    /* const handlePlanningGenerate = () => {
-        Keyboard.dismiss();
-        mutatePlanningGenerated("vegan");
-    }; */
-    
+    /* const handlePlanningGenerate = () => mutatePlanningGenerated("vegan"); */
+
     const handlePlanningGenerate = () => {
         if (!testJson) return;
-        Keyboard.dismiss();
         setDaysWeek(formatPlanningWeek(testJson));
+        setGeneratedPlanning(true);
     };
 
     /**
-     *  Récupère les données de open API
+     * Restore avec les données de la bdd
      */
-    useEffect(() => {
-        if (!planningGenerated) return;
-        setDaysWeek(formatPlanningWeek(planningGenerated));
-    }, [planningGenerated]);
-
-    /**
-     * Remise à zéro avec les données de la bdd
-     */
-    /*     const onResetPlanning = () => {
+    const onRestorePlanning = () => {
         if (!planningRecipes) return;
-        setDaysWeek();
-    }; */
+        setDaysWeek(formatPlanningWeek(planningRecipes));
+        setGeneratedPlanning(false);
+    };
 
     /**
      * Sauvegarde du nouveau planning en base
      */
     const onSavePlanning = () => {
         //const planning = planningGenerated;
+
         const planning = testJson;
+        if (!planning) return;
 
-        if (!planning || !form.name) return;
-
-        mutateSavePlanning({
-            planning,
-            planningId: undefined,
-            name: form.name,
-            weekNumber,
-            year,
-        });
+        mutateSavePlanning({ planning, planningId });
     };
 
     /**
@@ -192,86 +173,52 @@ export const AddPlanningScreen = ({ route }: AddPlanningScreenProps) => {
      */
     const {
         mutate: mutateSavePlanning,
-        data: savePlanning,
+        /*         data: savePlanning,
         isPending: isPendingSavePlanning,
         isError: isErrorSavePlanning,
-        error: errorSavePlanning,
+        error: errorSavePlanning, */
     } = useSavePlanning();
 
     /**
-     * Si save succes, redirectopn vers la page edition du planning
+     *  Récupère les données de open API
      */
     useEffect(() => {
-        if (savePlanning && savePlanning.success) {
-            navigation.replace("PlanningDetails", { planningId: savePlanning.planningId, planningName: form.name });
-        }
-    }, [savePlanning]);
+        if (!planningGenerated) return;
+        formatPlanningWeek(planningGenerated);
+        setGeneratedPlanning(true);
+    }, [planningGenerated]);
+
+    /**
+     * Surcharge header
+     */
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerShown: true,
+            header: () => <PlanningDetailsHeader name={planningName} handlePlanningGenerate={handlePlanningGenerate} />,
+        });
+    }, [navigation]);
+
+    if (isLoading || !daysWeek) return <PlanningDetailsSkeleton />;
+
+    if (error) return <LoadingError />;
 
     return (
         <ScreenContainer safeAreaTop={false} bgColor={Colors.background}>
-            <View style={{ ...GlobalStyles.ph, ...styles.container }}>
-                <View style={styles.formGroup}>
-                    <Input
-                        value={form.name}
-                        autoCorrect={false}
-                        placeholder={fr.planning.placeholder.title}
-                        onChangeText={(val) => setForm({ ...form, name: val })}
-                        style={styles.input}
-                    />
+            <ScrollView style={{ ...GlobalStyles.ph, ...styles.scrollView }} contentContainerStyle={styles.scrollViewContainer}>
+                <DaysWeekView daysWeek={daysWeek} days={days} />
+            </ScrollView>
+
+            {generatedPlanning && (
+                <View style={[GlobalStyles.ph, styles.btnsWeek]}>
+                    <ButtonCustom title={fr.btnRestore} type="color" onPress={onRestorePlanning} styleButton={{ width: "49%" }} />
+                    <ButtonCustom title={fr.btnSave} type="color" onPress={onSavePlanning} styleButton={{ width: "49%" }} />
                 </View>
-
-                {!daysWeek && (
-                    <View style={styles.btnsContainer}>
-                        <ButtonCustom
-                            title={daysWeek ? fr.btnRefreshSchedule : fr.btnGenerateSchedule}
-                            onPress={handlePlanningGenerate}
-                            type="color"
-                            styleButton={styles.btn}
-                            disabled={!form.name}
-                        />
-                    </View>
-                )}
-
-                {daysWeek && (
-                    <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContainer}>
-                        <DaysWeekView daysWeek={daysWeek} days={days} />
-                    </ScrollView>
-                )}
-
-                {daysWeek && (
-                    <View style={styles.btnsWeek}>
-                        <ButtonCustom title={fr.btnRefreshSchedule} onPress={handlePlanningGenerate} type="color" styleButton={{ width: "49%" }} />
-                        <ButtonCustom title={fr.btnSave} type="color" onPress={onSavePlanning} styleButton={{ width: "49%" }} />
-                    </View>
-                )}
-            </View>
+            )}
         </ScreenContainer>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    input: {
-        marginTop: 5,
-    },
-    btnsContainer: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 10,
-        marginTop: 20,
-    },
-    btn: {
-        flex: 1,
-    },
-    registrationDate: {
-        paddingVertical: 10,
-    },
-    formGroup: {
-        marginVertical: 10,
-    },
     scrollView: {
         flex: 1,
     },

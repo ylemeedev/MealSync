@@ -3,7 +3,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { Colors, GlobalStyles } from "../../../assets";
 import { calendarFr } from "../../../shared/helpers/date.helper";
 import TextApp from "../../../shared/components/TextApp";
-import { DatesBannerProps } from "../types/mealPlanner.types";
+import { DatesBannerProps } from "../types/planning.types";
 
 export const DatesBanner = ({ selectedWeek, onPrevWeek, onNextWeek }: DatesBannerProps) => {
     return (

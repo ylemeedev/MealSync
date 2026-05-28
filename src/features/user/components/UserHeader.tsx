@@ -5,11 +5,12 @@ import { Colors } from "../../../assets";
 import { HeaderContainer } from "../../../shared/components/HeaderContainer";
 import { Typography } from "../../../assets/fonts";
 import { Images } from "../../../assets/images";
+import { UserHeaderSkeleton } from "./skeleton/UserHeaderSkeleton";
 
 export const UserHeader = () => {
     const { data: user, isLoading, error } = useMe();
 
-    if (isLoading || error || !user) return null;
+    if (isLoading || error || !user) return <UserHeaderSkeleton />
 
     return (
         <HeaderContainer bgColor={Colors.mainColor}>

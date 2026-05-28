@@ -22,6 +22,7 @@ export const UserPreferenceScreen = () => {
     const { data: preferences, isLoading: isLoadingPreference, error: errorPreference } = usePreference(); // Recupère toutes les préférences
 
     const updatePreferences = useUpdatePreferences();
+    const isSaving = updatePreferences.isPending;
 
     const [newUserPreferences, setNewUserPreferences] = useState<number[]>([]);
     const [previousUserPreferences, setPreviousUserPreferences] = useState<number[]>([]);
@@ -74,7 +75,9 @@ export const UserPreferenceScreen = () => {
     const isModified = useMemo(() => {
         if (!user) return false;
 
-        return JSON.stringify(newUserPreferences) !== JSON.stringify(previousUserPreferences);
+        if (previousUserPreferences.length !== newUserPreferences.length) return true;
+
+        return newUserPreferences.some((id) => !previousUserPreferences.includes(id));
     }, [newUserPreferences, user]);
 
     if (isLoadingUser) return <Loading />;
@@ -84,7 +87,7 @@ export const UserPreferenceScreen = () => {
     return (
         <ScreenContainer safeAreaTop={false} bgColor={Colors.background}>
             <ScrollView style={[GlobalStyles.ph, styles.container]} contentContainerStyle={styles.contentScrollContainer}>
-                <TextApp style={GlobalStyles.h2}>{fr.user.title.preferences}</TextApp>
+                <TextApp style={styles.intro}>{fr.user.introPreferences}</TextApp>
 
                 {(Object.entries(groupedPreferences) as [PreferenceCategory, Preference[]][]).map(([category, prefs]) => (
                     <View key={category}>
@@ -104,11 +107,12 @@ export const UserPreferenceScreen = () => {
 
                 <View style={styles.btnsContainer}>
                     <ButtonCustom
-                        title={updatePreferences.isPending ? "Chargement" : "Valider"}
+                        title={fr.btnSave}
                         onPress={handleValidate}
                         type="color"
-                        disabled={updatePreferences.isPending || !isModified}
+                        disabled={isSaving || !isModified}
                         styleButton={styles.btn}
+                        loader={isSaving}
                     />
                 </View>
             </ScrollView>
@@ -119,6 +123,10 @@ export const UserPreferenceScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    intro: {
+        fontFamily: Typography.semiBold,
+        marginVertical: 10,
     },
     contentScrollContainer: {
         paddingVertical: 10,

@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import TextApp from "../../../shared/components/TextApp";
 import { Typography } from "../../../assets/fonts";
-import { MealContainerProps } from "../types/mealPlanner.types";
+import { MealContainerProps } from "../types/planning.types";
 import { trad } from "../../../constants/layout";
 
 export const MealContainer = ({ timeOfDay, dayWeek }: MealContainerProps) => {

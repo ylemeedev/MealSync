@@ -30,7 +30,7 @@ export const LoginForm = ({
             setToken(data.token);
             setRefreshToken(data.refresh_token);
 
-            navigation.replace("Main", { screen: "MealPlanner" });
+            navigation.replace("Main", { screen: "Planning" });
         } catch (error: any) {
             if (error?.response?.status === 401) {
                 setError("Identifiants incorrects");

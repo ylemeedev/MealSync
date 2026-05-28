@@ -10,15 +10,14 @@ import "dayjs/locale/fr";
 import { fr } from "../../../shared/lang/fr";
 import { Loading } from "../../../shared/components/Loading";
 import { LoadingError } from "../../../shared/components/LoadingError";
-import { useAppNavigation } from "../../../app/navigation/types/rootNavigator.types";
 import ScreenContainer from "../../../shared/components/ScreenContainer";
+import { Typography } from "../../../assets/fonts";
 
 export const UserProfilScreen = () => {
-    const navigation = useAppNavigation();
-
     const { data: user, isLoading: isLoadingUser, error: errorUser } = useMe();
 
     const updateMe = useUpdateMe();
+    const isSaving = updateMe.isPending;
 
     /**
      * Init state formulaire
@@ -84,7 +83,7 @@ export const UserProfilScreen = () => {
         <ScreenContainer safeAreaTop={false} bgColor={Colors.background}>
             <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
                 <View style={[GlobalStyles.ph, styles.container]}>
-                    <TextApp style={GlobalStyles.h2}>{fr.user.title.profil}</TextApp>
+                    <TextApp style={styles.intro}>{fr.user.introProfil}</TextApp>
 
                     <View style={styles.formGroup}>
                         <TextApp>{fr.user.label.emailAddress}</TextApp>
@@ -154,10 +153,10 @@ export const UserProfilScreen = () => {
 
                     <View style={styles.btnsContainer}>
                         <ButtonCustom
-                            title={updateMe.isPending ? "Chargement" : "Valider"}
+                            title={isSaving ? "Chargement" : "Valider"}
                             onPress={handleValidate}
                             type="color"
-                            disabled={updateMe.isPending || !isModified}
+                            disabled={isSaving || !isModified}
                             styleButton={styles.btn}
                         />
                     </View>
@@ -171,6 +170,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingVertical: 10,
+    },
+    intro: {
+        fontFamily: Typography.semiBold,
+        marginVertical: 10,
     },
     input: {
         marginTop: 5,

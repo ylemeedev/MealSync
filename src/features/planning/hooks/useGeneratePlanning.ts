@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { DietType, PlanningWeek } from "../types/mealPlanner.types";
+import { DietType, PlanningWeek } from "../types/planning.types";
 import { planningGenerator, savePlanning } from "../api/planningGenerator.api";
 
 export const usePlanningGenerator = () => {

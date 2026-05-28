@@ -5,7 +5,7 @@ import { Colors } from "../../../assets";
 import TextApp from "../../../shared/components/TextApp";
 import { Typography } from "../../../assets/fonts";
 import { HeaderContainer } from "../../../shared/components/HeaderContainer";
-import { PlanningDetailsHeaderprops } from "../types/mealPlanner.types";
+import { PlanningDetailsHeaderprops } from "../types/planning.types";
 import { useAppNavigation } from "../../../app/navigation/types/rootNavigator.types";
 
 export const PlanningDetailsHeader = ({ name, handlePlanningGenerate }: PlanningDetailsHeaderprops) => {

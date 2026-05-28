@@ -43,6 +43,8 @@ export const fr = {
     },
 
     user: {
+        introProfil: "Gérez vos informations personnelles et votre profil",
+        introPreferences: "Configurez vos préférences pour des repas qui vous ressemblent",
         title: {
             preferences: "Mes préférences",
             profil: "Mes informations personnelles",

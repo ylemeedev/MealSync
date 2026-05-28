@@ -11,6 +11,7 @@ import { LoadingError } from "../../../shared/components/LoadingError";
 import { Loading } from "../../../shared/components/Loading";
 import { useAppNavigation } from "../../../app/navigation/types/rootNavigator.types";
 import { usePreference } from "../hooks/usePreference";
+import UserSkeleton from "../components/skeleton/UserSkeleton";
 
 export const UserScreen = () => {
     const navigation = useAppNavigation();
@@ -40,7 +41,7 @@ export const UserScreen = () => {
         navigation.navigate("UserPreference");
     };
 
-    if (isLoadingUser) return <Loading />;
+    if (isLoadingUser) return <UserSkeleton />;
 
     if (errorUser || !user) return <LoadingError />;
 

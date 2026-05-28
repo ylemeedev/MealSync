@@ -1,5 +1,5 @@
 import React from "react";
-import { TextInputProps, StyleProp, TextStyle } from "react-native";
+import { TextInputProps, StyleProp, TextStyle, DimensionValue } from "react-native";
 
 export type BackgroundVariant = "linear" | "overflow" | string;
 export interface ScreenContainerProps {
@@ -30,6 +30,7 @@ export interface ButtonCustomProps {
     styleText?: object;
     titleColor?: ButtonTextColor;
     disabled?: boolean;
+    loader?: boolean;
     onPress(): void;
 }
 
@@ -64,4 +65,10 @@ export interface ModalCustomProps {
 
 export interface HydraResponse<T> {
     member: T[];
+}
+
+export interface SkeletonBoxProps {
+    width?: DimensionValue;
+    height?: number;
+    borderRadius?: number;
 }

@@ -93,12 +93,6 @@ export type TimeOfDay = "breakfast" | "lunch" | "dinner";
 export type MealType = "starter" | "main" | "dessert";
 export type DayOfWeek = "monday" | "tuesday" | "wednesday" | "thursday" | "friday" | "saturday" | "sunday";
 
-export interface Recipe {
-    "@id"?: string;
-    id?: number;
-    name: string;
-}
-
 export type PlanningMealType = Partial<Record<MealType, string>>;
 export type PlanningTimeOfDay = Record<TimeOfDay, PlanningMealType>;
 export type PlanningWeek = Record<DayOfWeek, PlanningTimeOfDay>;

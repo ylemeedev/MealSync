@@ -1,4 +1,4 @@
-import { PlanningWeek } from "../../features/mealPlanner/types/mealPlanner.types";
+import { PlanningWeek } from "../../features/planning/types/planning.types";
 import { days } from "../constants/constants";
 
 const emptyMeal = () => ({

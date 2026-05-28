@@ -1,15 +1,14 @@
-import { ActivityIndicator, FlatList, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import ButtonCustom from "../../../shared/components/ButtonCustom";
-import TextApp from "../../../shared/components/TextApp";
 import { Colors, GlobalStyles } from "../../../assets";
 import { Typography } from "../../../assets/fonts";
 import ScreenContainer from "../../../shared/components/ScreenContainer";
 import ModalCustom from "../../../shared/components/ModalCustom";
-import CalendarMealPlanner from "../components/CalendarMealPlanner";
-import { useEffect, useLayoutEffect, useMemo, useState } from "react";
-import { Planning as PlanningType, SelectedWeekData } from "../types/mealPlanner.types";
+import { CalendarMealPlanner } from "../components/CalendarMealPlanner";
+import { useLayoutEffect, useMemo, useState } from "react";
+import { Planning as PlanningType, SelectedWeekData } from "../types/planning.types";
 import dayjs from "dayjs";
-import { calendarFr, findCurrentWeek } from "../../../shared/helpers/date.helper";
+import { findCurrentWeek } from "../../../shared/helpers/date.helper";
 import { DatesBanner } from "../components/DatesBanner";
 import { useAppNavigation } from "../../../app/navigation/types/rootNavigator.types";
 import { PlanningListHeader } from "../components/PlanningListHeader";
@@ -21,6 +20,7 @@ import { Planning } from "../components/Planning";
 import { fr } from "../../../shared/lang/fr";
 import { LoadingError } from "../../../shared/components/LoadingError";
 import { Loading } from "../../../shared/components/Loading";
+import PlanningListSkeleton from "../components/skeleton/PlanningListSkeleton";
 
 export const PlanningListScreen = () => {
     const navigation = useAppNavigation();
@@ -135,9 +135,9 @@ export const PlanningListScreen = () => {
         });
     };
 
-    if (isLoading) return <Loading />
+    if (isLoading) return <PlanningListSkeleton />;
 
-    if (error) return <LoadingError />
+    if (error) return <LoadingError />;
 
     return (
         <ScreenContainer safeAreaTop={false} bgColor={Colors.background}>

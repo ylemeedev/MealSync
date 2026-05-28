@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import TextApp from "../../../shared/components/TextApp";
 import { Colors, GlobalStyles } from "../../../assets";
-import { PlanningProps } from "../types/mealPlanner.types";
+import { PlanningProps } from "../types/planning.types";
 import { Typography } from "../../../assets/fonts";
 
 export const Planning = ({ name, onPress }: PlanningProps) => {

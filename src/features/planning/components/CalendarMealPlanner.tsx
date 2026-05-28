@@ -7,14 +7,14 @@ import { DateData, Direction } from "react-native-calendars/src/types";
 import dayjs from "dayjs";
 import { useState } from "react";
 import ButtonCustom from "../../../shared/components/ButtonCustom";
-import { CalendarMealPlannerProps, SelectedWeekData } from "../types/mealPlanner.types";
+import { CalendarMealPlannerProps, SelectedWeekData } from "../types/planning.types";
 import { calendarFr, findCurrentWeek } from "../../../shared/helpers/date.helper";
 import { Typography } from "../../../assets/fonts";
 
 LocaleConfig.locales["fr"] = calendarFr;
 LocaleConfig.defaultLocale = "fr";
 
-const CalendarMealPlanner = ({ onValidate, week }: CalendarMealPlannerProps) => {
+export const CalendarMealPlanner = ({ onValidate, week }: CalendarMealPlannerProps) => {
     const [selectedWeek, setSelectedWeek] = useState<SelectedWeekData>(week);
 
     const onDayPress = (day: DateData) => {
@@ -66,8 +66,6 @@ const CalendarMealPlanner = ({ onValidate, week }: CalendarMealPlannerProps) => 
         </View>
     );
 };
-
-export default CalendarMealPlanner;
 
 const styles = StyleSheet.create({
     container: {
