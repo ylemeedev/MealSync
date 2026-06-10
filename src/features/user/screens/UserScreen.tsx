@@ -4,7 +4,6 @@ import { logout } from "../../auth/services/auth.service";
 import { useMe } from "../hooks/useUser";
 import TextApp from "../../../shared/components/TextApp";
 import { Colors, GlobalStyles } from "../../../assets";
-import { Typography } from "../../../assets/fonts";
 import ScreenContainer from "../../../shared/components/ScreenContainer";
 import { fr } from "../../../shared/lang/fr";
 import { LoadingError } from "../../../shared/components/LoadingError";

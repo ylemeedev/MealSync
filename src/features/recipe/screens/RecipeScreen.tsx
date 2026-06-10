@@ -3,49 +3,47 @@ import ScreenContainer from "../../../shared/components/ScreenContainer";
 import { Colors, GlobalStyles } from "../../../assets";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Animated from "react-native-reanimated";
-import { useCallback, useState } from "react";
-import { Recipe } from "../types/recipe.types";
+import { useState } from "react";
 import TextApp from "../../../shared/components/TextApp";
 import { Typography } from "../../../assets/fonts";
 import { useRecipes } from "../hooks/useRecipe";
-
-/* const recipes: Recipe[] = [
-    {
-        id: 1,
-        name: "Pancakes aux fruits rouges",
-        description: "Pancakes moelleux accompagnés de fruits rouges frais et d’un filet de sirop d’érable.",
-        recipePicture: "https://images.pexels.com/photos/6546433/pexels-photo-6546433.jpeg",
-    },
-    {
-        id: 2,
-        name: "Toast avocat & œufs",
-        description: "Pain grillé, avocat écrasé et œufs pochés pour un petit-déjeuner équilibré.",
-        recipePicture: "https://images.pexels.com/photos/8902069/pexels-photo-8902069.jpeg",
-    },
-    {
-        id: 3,
-        name: "Bol healthy protéiné",
-        description: "Mélange de légumes frais, quinoa et protéines végétales pour un repas complet.",
-        recipePicture: "https://images.pexels.com/photos/5491151/pexels-photo-5491151.jpeg",
-    },
-    {
-        id: 4,
-        name: "Salade méditerranéenne",
-        description: "Salade fraîche aux tomates, concombre, feta et olives noires.",
-        recipePicture: "https://images.pexels.com/photos/29666890/pexels-photo-29666890.jpeg",
-    },
-]; */
+import { LoadingError } from "../../../shared/components/LoadingError";
 
 export const RecipeScreen = () => {
-    const { data: recipes, isLoading: isLoadingRecipes, error: errorRecipes, isError: isErrorRecipes } = useRecipes(1);
-
     const fadeAnim = useAnimatedValue(0);
     const fadeIn = () => {};
 
     const [recipeIndex, setRecipeIndex] = useState<number>(0);
+    const [pageIndex, setPageIndex] = useState<number>(1);
+
+    const { data: recipes, isLoading: isLoadingRecipes, error: errorRecipes, isError: isErrorRecipes } = useRecipes(pageIndex);
+
+    /**
+     * Si pas de description ou d'image de la recette, on en ajoute vie l'API spoonacular
+     */
+/*     useEffect(() => {
+        if (!recipes) return;
+
+        for (const recipe of recipes) {
+            if (!recipe.recipePicture) {
+            
+                break;
+            }
+        }
+    }, [recipes]); */
+
 
     const nextRecipe = () => {
-        if (recipes) setRecipeIndex((prev) => (recipes.length - 1 <= prev ? 0 : prev + 1));
+        if (recipes) {
+            if (recipeIndex < recipes.length - 1) {
+                setRecipeIndex((prev) => prev + 1);
+            }
+
+            if (recipeIndex >= recipes.length - 1) {
+                setRecipeIndex(0);
+                setPageIndex((prev) => prev + 1);
+            }
+        }
     };
 
     /**
@@ -61,6 +59,8 @@ export const RecipeScreen = () => {
     const handleAddFavorite = () => {
         nextRecipe();
     };
+
+    if (errorRecipes || !recipes) return <LoadingError />;
 
     return (
         <ScreenContainer safeAreaTop={false} bgColor={Colors.background}>
@@ -104,10 +104,10 @@ const styles = StyleSheet.create({
     },
     name: {
         color: Colors.white,
-        fontFamily: Typography.bold,
+        fontFamily: Typography.black,
         position: "absolute",
         padding: 20,
-        fontSize: 20,
+        fontSize: 26,
         textAlign: "center",
         width: "100%",
     },

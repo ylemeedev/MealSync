@@ -51,7 +51,7 @@ export const AuthScreen = () => {
 
                 //await fetchMe()
 
-                navigation.replace("Main", { screen: "Planning" });
+                navigation.replace("Main", { screen: "PlanningList" });
             } catch (error) {
                 console.log("🚀 - AUTHSCREEN ~ initAuth:", error);
                 await logout(false);

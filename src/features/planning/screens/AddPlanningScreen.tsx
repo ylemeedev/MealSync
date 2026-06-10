@@ -13,101 +13,6 @@ import { DaysWeek as DaysWeekView } from "../components/DaysWeek";
 import { days } from "../../../shared/constants/constants";
 import { fr } from "../../../shared/lang/fr";
 
-const testJson = {
-    monday: {
-        breakfast: {
-            starter: "Salade de tomates et de basilic",
-            main: "Pâtes au pesto",
-        },
-        lunch: { main: "Quiche de légumes" },
-        dinner: {
-            starter: "Soupe de potiron",
-            main: "Ratatouille provençale",
-            dessert: "Tarte aux fruits rouges",
-        },
-    },
-    tuesday: {
-        breakfast: {
-            starter: "Smoothie de banane et de noix de coco",
-            main: "Crêpes aux fruits",
-        },
-        lunch: {
-            starter: "Salade de roquette et de noix",
-            main: "Sandwich de tofu et de laitue",
-        },
-        dinner: {
-            starter: "Carpaccio de betterave",
-            main: "Lasagnes végétariennes",
-            dessert: "Gâteau au chocolat végétal",
-        },
-    },
-    wednesday: {
-        breakfast: {
-            starter: "Yaourt nature et miel",
-            main: "Pain complet avec beurre de cacahuète",
-        },
-        lunch: { main: "Tacos de légumes" },
-        dinner: {
-            starter: "Soupe de carottes",
-            main: "Courgettes farcies",
-            dessert: "Crème brûlée végétale",
-        },
-    },
-    thursday: {
-        breakfast: {
-            starter: "Jus de pomme et de carotte",
-            main: "Omelette de tofu",
-        },
-        lunch: {
-            starter: "Salade de chou et de noix",
-            main: "Quiche de poivrons",
-        },
-        dinner: {
-            starter: "Tomates cerises avec basilic",
-            main: "Risotto aux champignons",
-            dessert: "Tarte aux abricots",
-        },
-    },
-    friday: {
-        breakfast: {
-            starter: "Smoothie de mangue et de banane",
-            main: "Crêpes aux légumes",
-        },
-        lunch: { main: "Sushi de légumes" },
-        dinner: {
-            starter: "Soupe de lentilles",
-            main: "Poulet de tofu à la crème de champignons",
-            dessert: "Gâteau aux noix",
-        },
-    },
-    saturday: {
-        breakfast: {
-            starter: "Yaourt nature et fraises",
-            main: "Pain complet avec beurre de noix",
-        },
-        lunch: {
-            starter: "Salade de chou et de carottes",
-            main: "Tacos de tofu",
-        },
-        dinner: {
-            starter: "Carpaccio de concombre",
-            main: "Lasagnes aux légumes",
-            dessert: "Crème glacée végétale",
-        },
-    },
-    sunday: {
-        breakfast: {
-            starter: "Jus de citron et de gingembre",
-            main: "Omelette de tofu et de légumes",
-        },
-        lunch: { main: "Quiche de légumes" },
-        dinner: {
-            starter: "Soupe de potiron",
-            main: "Ratatouille provençale",
-            dessert: "Tarte aux fruits rouges",
-        },
-    },
-};
 
 export const AddPlanningScreen = ({ route }: AddPlanningScreenProps) => {
     const navigation = useAppNavigation();
@@ -142,17 +47,11 @@ export const AddPlanningScreen = ({ route }: AddPlanningScreenProps) => {
         error: errorPlanningGenerated,
     } = usePlanningGenerator();
 
-    /* const handlePlanningGenerate = () => {
+    const handlePlanningGenerate = () => {
         Keyboard.dismiss();
         mutatePlanningGenerated("vegan");
-    }; */
-    
-    const handlePlanningGenerate = () => {
-        if (!testJson) return;
-        Keyboard.dismiss();
-        setDaysWeek(formatPlanningWeek(testJson));
     };
-
+    
     /**
      *  Récupère les données de open API
      */
@@ -173,8 +72,7 @@ export const AddPlanningScreen = ({ route }: AddPlanningScreenProps) => {
      * Sauvegarde du nouveau planning en base
      */
     const onSavePlanning = () => {
-        //const planning = planningGenerated;
-        const planning = testJson;
+        const planning = planningGenerated;
 
         if (!planning || !form.name) return;
 
